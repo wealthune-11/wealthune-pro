@@ -1342,8 +1342,8 @@ function submitFeedback() {
   var formData = new FormData();
   formData.append('entry.541986487',  name);
   formData.append('entry.1909742885', selectedRating);
-  formData.append('entry.1765432100', style);
-  formData.append('entry.693394539',  text);
+  formData.append('entry.693394539', style);
+  formData.append('entry.104532793',  text);
   formData.append('entry.2037569856', email);
   fetch(FORM_URL, { method: 'POST', mode: 'no-cors', body: formData }).catch(function() {});
 
