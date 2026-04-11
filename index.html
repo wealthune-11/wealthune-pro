@@ -1,0 +1,1614 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Wealthune Pro — 11 Premium Stock Scanners | Lifetime Access</title>
+
+<!-- Google Analytics — replace G-XXXXXXXXXX with your Measurement ID -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-BVC1LTJFEM"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-BVC1LTJFEM');
+</script>
+
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --bg:#fff; --bg2:#f7faf9; --border:#e0ece8;
+  --green:#18cb96; --green2:#10a87c; --green-dim:#0d8a64;
+  --dark:#1a2e28; --text:#1a2e28; --muted:#5a7a6e; --muted2:#8aaa9c;
+  --ffd:'Bebas Neue',sans-serif; --ffb:'DM Sans',sans-serif; --ffm:'Space Mono',monospace;
+  --r:10px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--text);font-family:var(--ffb);font-size:15px;line-height:1.65;overflow-x:hidden;}
+
+/* ── TICKER ── */
+.ticker-bar{background:var(--dark);height:36px;overflow:hidden;display:flex;align-items:center;position:relative;}
+.ticker-bar::before,.ticker-bar::after{content:'';position:absolute;top:0;bottom:0;width:80px;z-index:2;}
+.ticker-bar::before{left:0;background:linear-gradient(90deg,var(--dark),transparent);}
+.ticker-bar::after{right:0;background:linear-gradient(-90deg,var(--dark),transparent);}
+.ticker-label{font-family:var(--ffm);font-size:9px;color:var(--green);letter-spacing:2px;text-transform:uppercase;padding:0 20px;white-space:nowrap;z-index:3;flex-shrink:0;border-right:1px solid rgba(255,255,255,0.1);margin-right:8px;}
+.ticker-track{display:flex;gap:44px;white-space:nowrap;animation:ticker-scroll 42s linear infinite;padding-left:20px;}
+.ticker-item{display:flex;align-items:center;gap:6px;font-family:var(--ffm);font-size:11px;}
+.t-name{color:#e8ede9;font-weight:700;letter-spacing:.5px;}
+.t-price{color:rgba(255,255,255,0.55);}
+.t-chg.up{color:#18cb96;} .t-chg.dn{color:#ff6b7a;}
+.t-dot{width:5px;height:5px;border-radius:50%;flex-shrink:0;}
+.t-dot.up{background:#18cb96;} .t-dot.dn{background:#ff6b7a;}
+@keyframes ticker-scroll{from{transform:translateX(0);}to{transform:translateX(-50%);}}
+
+/* ── NAV ── */
+nav{position:sticky;top:0;z-index:1000;background:rgba(255,255,255,0.97);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);box-shadow:0 1px 12px rgba(24,203,150,0.07);}
+.nav-inner{max-width:1160px;margin:0 auto;padding:0 24px;display:flex;align-items:center;}
+.nav-logo{margin-right:auto;padding:8px 0;display:flex;align-items:center;gap:10px;cursor:pointer;text-decoration:none;}
+.nav-logo-img{height:38px;width:auto;object-fit:contain;}
+.nav-wm{font-family:var(--ffd);font-size:26px;letter-spacing:1px;color:var(--dark);display:none;}
+.pro-badge{font-family:var(--ffm);font-size:9px;font-weight:700;letter-spacing:2px;color:#fff;background:var(--green);padding:4px 9px;border-radius:3px;text-transform:uppercase;}
+.v3-badge{font-family:var(--ffm);font-size:9px;font-weight:700;letter-spacing:1.5px;color:var(--green2);background:rgba(24,203,150,0.1);border:1px solid rgba(24,203,150,0.25);padding:3px 7px;border-radius:3px;}
+.tab-nav-d{display:flex;align-items:center;}
+.tab-nav-m{display:none;}
+.tab-btn{background:none;border:none;border-bottom:2px solid transparent;color:var(--muted);font-family:var(--ffb);font-size:13px;font-weight:500;padding:18px 15px 16px;cursor:pointer;transition:color .2s,border-color .2s;white-space:nowrap;line-height:1;}
+.tab-btn:hover{color:var(--dark);}
+.tab-btn.active{color:var(--green);border-bottom-color:var(--green);font-weight:600;}
+
+/* ── MOBILE BOTTOM TABS ── */
+@media(max-width:740px){
+  .tab-nav-d{display:none;}
+  .tab-nav-m{display:flex;position:fixed;bottom:0;left:0;right:0;z-index:999;background:#fff;border-top:2px solid var(--border);box-shadow:0 -3px 16px rgba(0,0,0,0.1);}
+  .tab-nav-m .tab-btn{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding:8px 4px 10px;font-size:9px;letter-spacing:0.3px;border-bottom:none;border-top:3px solid transparent;transition:all .2s;}
+  .tab-nav-m .tab-btn.active{border-top-color:var(--green);color:var(--green);background:rgba(24,203,150,0.04);}
+  .tab-nav-m .tab-btn .tbi{font-size:19px;line-height:1;}
+  body{padding-bottom:64px;}
+  .nav-inner{padding:0 14px;}
+}
+
+/* ── TABS ── */
+.tab-section{display:none;}
+.tab-section.active{display:block;}
+
+/* ── BUTTONS ── */
+.btn-primary{background:var(--green);color:#fff;font-family:var(--ffb);font-weight:700;font-size:14px;padding:16px 40px;border:none;border-radius:var(--r);cursor:pointer;transition:all .25s;text-decoration:none;display:inline-block;letter-spacing:.3px;}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 12px 32px rgba(24,203,150,.4);background:#15b884;}
+.btn-ghost{background:transparent;color:var(--dark);font-family:var(--ffb);font-weight:500;font-size:14px;padding:15px 36px;border:1.5px solid var(--border);border-radius:var(--r);cursor:pointer;transition:all .2s;display:inline-block;}
+.btn-ghost:hover{border-color:var(--green);color:var(--green);}
+
+/* ── LAYOUT ── */
+.section{max-width:1160px;margin:0 auto;padding:80px 28px;}
+.stag{font-family:var(--ffm);font-size:10px;color:var(--green);letter-spacing:2.5px;text-transform:uppercase;margin-bottom:12px;display:block;}
+h2.st{font-family:var(--ffd);font-size:clamp(34px,5.5vw,56px);font-weight:400;letter-spacing:2px;line-height:1.05;margin-bottom:14px;text-transform:uppercase;color:var(--dark);}
+h2.st span{color:var(--green);}
+.ssub{color:var(--muted);font-size:15px;max-width:560px;margin-bottom:48px;line-height:1.75;}
+.div1{height:1px;background:var(--border);max-width:1160px;margin:0 auto;}
+.stripe{background:var(--bg2);border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:72px 28px;}
+
+/* ── HERO ── */
+.hero{position:relative;overflow:hidden;padding:96px 28px 72px;text-align:center;}
+.hero-bg{position:absolute;inset:0;background-image:linear-gradient(rgba(24,203,150,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(24,203,150,.05) 1px,transparent 1px);background-size:60px 60px;pointer-events:none;}
+.hero-glow{position:absolute;top:-20%;left:50%;transform:translateX(-50%);width:800px;height:400px;background:radial-gradient(ellipse,rgba(24,203,150,.12) 0%,transparent 65%);pointer-events:none;}
+.hero-eye{display:inline-flex;align-items:center;gap:8px;background:rgba(24,203,150,.08);border:1px solid rgba(24,203,150,.25);color:var(--green2);font-family:var(--ffm);font-size:10px;letter-spacing:2px;text-transform:uppercase;padding:6px 16px;border-radius:20px;margin-bottom:28px;}
+.hero-eye::before{content:'';width:6px;height:6px;background:var(--green);border-radius:50%;animation:pdot 2s ease-in-out infinite;}
+@keyframes pdot{0%,100%{opacity:1;transform:scale(1);}50%{opacity:.4;transform:scale(.6);}}
+.hero h1{font-family:var(--ffd);font-size:clamp(54px,9vw,104px);font-weight:400;line-height:.95;letter-spacing:3px;color:var(--dark);margin-bottom:6px;text-transform:uppercase;}
+.hero h1 em{font-style:normal;color:var(--green);display:block;}
+.h1-alt{font-family:var(--ffd);font-size:inherit;font-weight:400;letter-spacing:3px;text-transform:uppercase;color:var(--dark);display:block;line-height:.95;}
+.hero-tag{font-family:var(--ffb);font-size:clamp(14px,2vw,17px);color:var(--muted);font-weight:300;font-style:italic;margin-bottom:22px;}
+.hero-desc{font-size:16px;color:var(--muted);max-width:580px;margin:0 auto 44px;line-height:1.75;}
+.hero-btns{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;}
+.hero-trust{display:flex;gap:20px;justify-content:center;flex-wrap:wrap;margin-top:24px;font-size:13px;color:var(--muted);}
+
+/* ── OVERALL RATING BADGE ── */
+.rating-strip{display:flex;align-items:center;justify-content:center;gap:20px;background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:16px 28px;max-width:560px;margin:28px auto 0;flex-wrap:wrap;}
+.rating-stars{font-size:22px;letter-spacing:2px;color:#f59e0b;line-height:1;}
+.rating-score{font-family:var(--ffd);font-size:36px;color:var(--dark);letter-spacing:1px;line-height:1;}
+.rating-meta{font-size:12px;color:var(--muted);line-height:1.5;}
+.rating-meta strong{color:var(--dark);font-weight:600;}
+
+/* ── PROBLEM ── */
+.prob-trio{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px;text-align:left;}
+.prob-item{background:#fff;border:1.5px solid var(--border);border-radius:var(--r);padding:28px;}
+.prob-icon{font-size:28px;margin-bottom:12px;}
+.prob-item h4{font-size:15px;font-weight:600;margin-bottom:8px;color:var(--dark);}
+.prob-item p{font-size:13px;color:var(--muted);line-height:1.7;}
+
+/* ── BEFORE/AFTER ── */
+.baa{display:flex;border:1.5px solid var(--border);border-radius:14px;overflow:hidden;box-shadow:0 4px 20px rgba(24,203,150,.06);}
+.baa-col{flex:1;padding:32px 28px;}
+.baa-before{background:#fff8f8;} .baa-after{background:#f4fdf9;}
+.baa-lbl{font-family:var(--ffm);font-size:10px;letter-spacing:2px;text-transform:uppercase;font-weight:700;margin-bottom:20px;display:block;}
+.baa-before .baa-lbl{color:#be123c;} .baa-after .baa-lbl{color:var(--green2);}
+.baa-list{list-style:none;padding:0;}
+.baa-list li{font-size:14px;padding:8px 0;border-bottom:1px solid rgba(0,0,0,.05);color:var(--dark);}
+.baa-list li:last-child{border-bottom:none;}
+.baa-vs{display:flex;align-items:center;justify-content:center;background:var(--dark);color:#fff;font-family:var(--ffd);font-size:18px;letter-spacing:2px;width:52px;flex-shrink:0;writing-mode:vertical-rl;}
+
+/* ── EDGE PILLS ── */
+.epills{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;}
+.epill{background:#fff;border:1.5px solid var(--border);border-radius:40px;padding:10px 20px;font-size:13px;font-weight:500;color:var(--dark);display:flex;align-items:center;gap:8px;transition:border-color .2s,box-shadow .2s;}
+.epill:hover{border-color:var(--green);box-shadow:0 4px 12px rgba(24,203,150,.1);}
+
+/* ── SCANNER CARDS ── */
+.sc-cat-row{display:flex;align-items:center;gap:14px;margin-bottom:16px;margin-top:8px;flex-wrap:wrap;}
+.sc-cat-badge{font-family:var(--ffm);font-size:10px;letter-spacing:1.5px;text-transform:uppercase;font-weight:700;padding:5px 14px;border-radius:4px;flex-shrink:0;}
+.sc-cat-badge.mom{background:rgba(24,203,150,.12);color:var(--green2);border:1px solid rgba(24,203,150,.2);}
+.sc-cat-badge.rev{background:rgba(190,18,60,.08);color:#be123c;border:1px solid rgba(190,18,60,.15);}
+.sc-cat-badge.brk{background:rgba(29,78,216,.08);color:#1d4ed8;border:1px solid rgba(29,78,216,.15);}
+.sc-cat-badge.vol{background:rgba(180,83,9,.08);color:#b45309;border:1px solid rgba(180,83,9,.15);}
+.sc-cat-desc{font-size:14px;color:var(--muted);font-style:italic;}
+.sc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px;}
+.sc-card{background:var(--bg2);border:1.5px solid var(--border);border-radius:var(--r);padding:26px;position:relative;overflow:hidden;transition:border-color .25s,transform .25s,box-shadow .25s;}
+.sc-card::after{content:'';position:absolute;bottom:0;left:0;right:0;height:3px;transform:scaleX(0);transform-origin:left;transition:transform .3s;}
+.sc-card.mom::after{background:var(--green);} .sc-card.vol::after{background:#f59e0b;}
+.sc-card.rev::after{background:#e05c6e;} .sc-card.brk::after{background:#3b82f6;}
+.sc-card:hover{transform:translateY(-3px);border-color:var(--green);box-shadow:0 10px 32px rgba(24,203,150,.12);}
+.sc-card:hover::after{transform:scaleX(1);}
+.sc-head{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:14px;}
+.sc-num{font-family:var(--ffm);font-size:10px;color:var(--green2);background:rgba(24,203,150,.1);border:1px solid rgba(24,203,150,.2);padding:3px 10px;border-radius:4px;letter-spacing:1px;}
+.sc-tag{font-family:var(--ffm);font-size:9px;padding:3px 9px;border-radius:4px;letter-spacing:.8px;text-transform:uppercase;}
+.sc-tag.mom{background:rgba(24,203,150,.1);color:var(--green2);}
+.sc-tag.vol{background:rgba(245,158,11,.1);color:#b45309;}
+.sc-tag.rev{background:rgba(224,92,110,.1);color:#be123c;}
+.sc-tag.brk{background:rgba(59,130,246,.1);color:#1d4ed8;}
+.sc-title{font-size:15px;font-weight:600;margin-bottom:8px;color:var(--dark);}
+.sc-desc{font-size:13px;color:var(--muted);line-height:1.6;}
+.sc-out{margin-top:12px;font-size:12px;color:var(--muted);border-top:1px solid var(--border);padding-top:10px;line-height:1.5;}
+
+/* ── DELIVERABLES ── */
+.dlv-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:18px;}
+.dlv-card{background:var(--bg2);border:1.5px solid var(--border);border-radius:var(--r);padding:28px;transition:border-color .2s,box-shadow .2s;}
+.dlv-card:hover{border-color:var(--green);box-shadow:0 6px 20px rgba(24,203,150,.08);}
+.dlv-icon{font-size:28px;margin-bottom:12px;}
+.dlv-card h4{font-size:15px;font-weight:600;margin-bottom:8px;color:var(--dark);}
+.dlv-card p{font-size:13px;color:var(--muted);line-height:1.7;}
+
+/* ── STEPS ── */
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:0;position:relative;}
+.steps::before{content:'';position:absolute;top:27px;left:10%;right:10%;height:1px;background:linear-gradient(90deg,transparent,var(--border),var(--border),transparent);}
+.step{text-align:center;padding:0 16px;}
+.step-num{width:56px;height:56px;border-radius:50%;background:#fff;border:2px solid var(--green);font-family:var(--ffd);font-size:24px;color:var(--green);display:flex;align-items:center;justify-content:center;margin:0 auto 20px;position:relative;z-index:1;}
+.step h4{font-size:14px;font-weight:600;margin-bottom:6px;color:var(--dark);}
+.step p{font-size:12px;color:var(--muted);line-height:1.6;}
+
+/* ── TESTIMONIALS ── */
+.testi-section{background:var(--dark);padding:80px 28px;}
+.testi-inner{max-width:1160px;margin:0 auto;}
+.testi-header{text-align:center;margin-bottom:52px;}
+.testi-header .stag{color:var(--green);}
+.testi-header h2{font-family:var(--ffd);font-size:clamp(32px,5vw,52px);font-weight:400;letter-spacing:2px;text-transform:uppercase;color:#fff;margin-bottom:10px;}
+.testi-header h2 span{color:var(--green);}
+.testi-overall{display:inline-flex;align-items:center;gap:12px;background:rgba(24,203,150,0.12);border:1px solid rgba(24,203,150,0.25);border-radius:40px;padding:8px 20px;margin-top:4px;}
+.testi-overall .stars{font-size:18px;letter-spacing:1px;color:#f59e0b;}
+.testi-overall .score{font-family:var(--ffd);font-size:26px;color:#fff;letter-spacing:1px;}
+.testi-overall .based{font-size:11px;color:rgba(255,255,255,0.55);font-family:var(--ffm);}
+.testi-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:20px;margin-bottom:56px;}
+.testi-card{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:14px;padding:28px;transition:border-color .2s,transform .2s;position:relative;}
+.testi-card:hover{border-color:rgba(24,203,150,0.4);transform:translateY(-2px);}
+.testi-card::before{content:'\201C';font-family:Georgia,serif;font-size:64px;color:rgba(24,203,150,0.25);position:absolute;top:12px;left:20px;line-height:1;}
+.testi-stars{font-size:15px;letter-spacing:1px;color:#f59e0b;margin-bottom:14px;padding-top:28px;}
+.testi-text{font-size:14px;color:rgba(255,255,255,0.82);line-height:1.75;margin-bottom:20px;font-style:italic;}
+.testi-author{display:flex;align-items:center;gap:12px;border-top:1px solid rgba(255,255,255,0.08);padding-top:16px;}
+.testi-avatar{width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,var(--green),var(--green2));display:flex;align-items:center;justify-content:center;font-family:var(--ffd);font-size:18px;color:#fff;flex-shrink:0;}
+.testi-name{font-weight:600;font-size:14px;color:#fff;}
+.testi-role{font-size:11px;color:rgba(255,255,255,0.45);font-family:var(--ffm);letter-spacing:.5px;margin-top:2px;}
+.testi-tag{display:inline-block;font-family:var(--ffm);font-size:9px;letter-spacing:1.5px;text-transform:uppercase;background:rgba(24,203,150,0.15);color:var(--green);border-radius:4px;padding:2px 8px;margin-left:8px;}
+
+/* ── FEEDBACK FORM ── */
+.feedback-section{background:#fff;padding:72px 28px;border-top:1px solid var(--border);}
+.feedback-inner{max-width:640px;margin:0 auto;text-align:center;}
+.feedback-inner h2{font-family:var(--ffd);font-size:clamp(30px,4vw,46px);font-weight:400;letter-spacing:2px;text-transform:uppercase;color:var(--dark);margin-bottom:10px;}
+.feedback-inner h2 span{color:var(--green);}
+.feedback-inner p{font-size:15px;color:var(--muted);margin-bottom:36px;line-height:1.7;}
+.feedback-form{background:var(--bg2);border:1.5px solid var(--border);border-radius:16px;padding:32px;text-align:left;}
+.fg{margin-bottom:16px;}
+.fg label{display:block;font-size:11px;font-weight:600;color:var(--muted);letter-spacing:.8px;text-transform:uppercase;margin-bottom:6px;}
+.fg input,.fg textarea,.fg select{width:100%;background:#fff;border:1.5px solid var(--border);border-radius:8px;padding:12px 14px;color:var(--dark);font-family:var(--ffb);font-size:14px;outline:none;transition:border-color .2s;resize:none;}
+.fg input:focus,.fg textarea:focus,.fg select:focus{border-color:var(--green);}
+.fg input::placeholder,.fg textarea::placeholder{color:var(--muted2);}
+.star-picker{display:flex;gap:6px;margin-top:4px;}
+.star-picker input{display:none;}
+.star-picker label{font-size:26px;cursor:pointer;color:#d1d5db;transition:color .15s;line-height:1;}
+.star-picker label:hover,.star-picker label.sel{color:#f59e0b;}
+.feedback-success{display:none;text-align:center;padding:28px;}
+.feedback-success .fs-icon{font-size:48px;margin-bottom:12px;}
+.feedback-success h4{font-family:var(--ffd);font-size:28px;letter-spacing:1px;text-transform:uppercase;color:var(--green2);margin-bottom:6px;}
+.feedback-success p{font-size:14px;color:var(--muted);}
+
+/* ── REALITY ── */
+.reality{background:var(--bg2);border:2px solid var(--border);border-radius:16px;padding:48px;text-align:center;max-width:860px;margin:0 auto;}
+.reality-icon{font-size:44px;margin-bottom:16px;}
+.reality h3{font-family:var(--ffd);font-size:clamp(26px,4vw,42px);letter-spacing:2px;text-transform:uppercase;color:var(--dark);margin-bottom:16px;}
+.reality-lead{font-size:16px;color:var(--muted);max-width:620px;margin:0 auto 36px;line-height:1.8;}
+.reality-cols{display:grid;grid-template-columns:1fr 1fr;gap:20px;text-align:left;margin-bottom:28px;}
+.reality-col{background:#fff;border:1px solid var(--border);border-radius:10px;padding:24px;}
+.reality-col h5{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--muted);margin-bottom:14px;}
+.reality-col ul{list-style:none;padding:0;}
+.reality-col ul li{font-size:14px;color:var(--dark);padding:6px 0;border-bottom:1px solid var(--border);}
+.reality-col ul li:last-child{border-bottom:none;}
+.reality-foot{font-size:15px;font-style:italic;color:var(--muted);}
+
+/* ── FIT GRID ── */
+.fit-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;}
+.fit-col{border-radius:12px;padding:32px;border:1.5px solid var(--border);}
+.fit-yes{background:#f4fdf9;border-color:rgba(24,203,150,.25);}
+.fit-no{background:#fff8f8;border-color:rgba(190,18,60,.15);}
+.fit-hdr{font-family:var(--ffm);font-size:11px;letter-spacing:1.5px;text-transform:uppercase;font-weight:700;margin-bottom:20px;display:block;}
+.fit-yes .fit-hdr{color:var(--green2);} .fit-no .fit-hdr{color:#be123c;}
+.fit-col ul{list-style:none;padding:0;}
+.fit-col ul li{font-size:14px;color:var(--dark);padding:9px 0;border-bottom:1px solid rgba(0,0,0,.05);line-height:1.5;}
+.fit-col ul li:last-child{border-bottom:none;}
+
+/* ── PRICING ── */
+.price-outer{background:#fff;border:1.5px solid var(--border);border-radius:20px;overflow:hidden;max-width:540px;margin:0 auto;box-shadow:0 8px 40px rgba(24,203,150,.12);position:relative;}
+.price-outer::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,var(--green),var(--green2));}
+.price-top{padding:40px 44px 32px;text-align:center;border-bottom:1px solid var(--border);background:var(--bg2);}
+.price-top .plabel{font-family:var(--ffm);font-size:10px;letter-spacing:2px;color:var(--green2);text-transform:uppercase;margin-bottom:20px;}
+.price-old{font-size:20px;color:var(--muted2);text-decoration:line-through;margin-bottom:4px;}
+.price-big{font-family:var(--ffd);font-size:80px;color:var(--dark);line-height:1;letter-spacing:2px;font-weight:400;}
+.price-big sup{font-size:32px;vertical-align:super;letter-spacing:0;color:var(--green2);}
+.price-badge{display:inline-block;background:var(--green);color:#fff;font-size:12px;font-weight:600;padding:5px 14px;border-radius:20px;margin-top:10px;}
+.price-feats{padding:28px 44px;}
+.pf{display:flex;align-items:flex-start;gap:12px;padding:12px 0;border-bottom:1px solid var(--border);font-size:14px;color:var(--text);}
+.pf:last-child{border-bottom:none;}
+.pf-ck{color:var(--green);font-size:16px;flex-shrink:0;margin-top:1px;}
+.price-cta{padding:0 44px 40px;}
+.price-note{text-align:center;font-size:12px;color:var(--muted);margin-top:14px;line-height:1.6;}
+
+/* ── WHY TAB ── */
+.pain-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:20px;margin-bottom:60px;}
+.pain-card{background:#fff8f8;border:1px solid rgba(224,92,110,.15);border-radius:var(--r);padding:28px;}
+.pain-card .icon{font-size:28px;margin-bottom:14px;display:block;}
+.pain-card h4{font-size:15px;font-weight:600;margin-bottom:8px;color:var(--dark);}
+.pain-card p{font-size:13px;color:var(--muted);line-height:1.7;}
+.vs-wrap{background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:44px;margin-bottom:56px;position:relative;overflow:hidden;}
+.vs-wrap::before{content:'';position:absolute;top:-40px;right:-40px;width:200px;height:200px;background:radial-gradient(circle,rgba(24,203,150,.08),transparent 70%);}
+.vs-wrap h3{font-family:var(--ffd);font-size:clamp(22px,3.5vw,36px);font-weight:400;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:28px;color:var(--dark);}
+.vs-wrap h3 span{color:var(--green);}
+.vs-tbl{width:100%;border-collapse:collapse;}
+.vs-tbl th{font-family:var(--ffm);font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);padding:10px 14px;text-align:left;border-bottom:1px solid var(--border);}
+.vs-tbl td{padding:13px 14px;font-size:13px;border-bottom:1px solid var(--border);color:var(--muted);}
+.vs-tbl tr:last-child td{border-bottom:none;}
+.vs-tbl td:first-child{color:var(--dark);font-weight:500;}
+.vs-tbl td.bad{color:#e05c6e;} .vs-tbl td.good{color:var(--green2);font-weight:600;}
+.vs-tbl .vs-win td{background:rgba(24,203,150,.05);border-top:1px solid rgba(24,203,150,.2)!important;}
+.why-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(256px,1fr));gap:20px;}
+.why-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:28px;transition:border-color .2s,transform .2s;}
+.why-card:hover{border-color:var(--green);transform:translateY(-2px);}
+.why-card .num{font-family:var(--ffd);font-size:52px;color:rgba(24,203,150,.2);line-height:1;margin-bottom:12px;}
+.why-card h4{font-size:15px;font-weight:600;margin-bottom:8px;color:var(--dark);}
+.why-card p{font-size:13px;color:var(--muted);line-height:1.7;}
+
+/* ── POLICY ── */
+.pol-wrap{max-width:760px;margin:0 auto;padding:64px 28px 80px;}
+.pol-tabs{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:48px;}
+.ptab{background:var(--bg2);border:1.5px solid var(--border);color:var(--muted);padding:8px 20px;border-radius:6px;cursor:pointer;font-family:var(--ffb);font-size:13px;font-weight:500;transition:all .2s;}
+.ptab.active,.ptab:hover{border-color:var(--green);color:var(--green2);background:rgba(24,203,150,.05);}
+.pdoc{display:none;} .pdoc.active{display:block;}
+.pdoc h2{font-family:var(--ffd);font-size:44px;font-weight:400;letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;color:var(--dark);}
+.pdoc .upd{font-family:var(--ffm);font-size:10px;color:var(--muted2);margin-bottom:36px;letter-spacing:1px;}
+.pdoc h3{font-size:15px;font-weight:600;margin:28px 0 10px;color:var(--green2);}
+.pdoc p{font-size:14px;color:var(--muted);line-height:1.8;margin-bottom:10px;}
+.pdoc ul{padding-left:18px;}
+.pdoc ul li{font-size:14px;color:var(--muted);line-height:1.8;margin-bottom:5px;}
+
+/* ── AFFILIATE ── */
+.aff-hero{text-align:center;padding:80px 28px 60px;max-width:860px;margin:0 auto;}
+.aff-eye{display:inline-block;background:rgba(24,203,150,.08);border:1px solid rgba(24,203,150,.25);color:var(--green2);font-family:var(--ffm);font-size:10px;padding:6px 16px;border-radius:20px;margin-bottom:24px;letter-spacing:2px;text-transform:uppercase;}
+.aff-pct{font-family:var(--ffd);font-size:clamp(70px,12vw,128px);line-height:1;color:var(--green);letter-spacing:4px;margin-bottom:8px;}
+.aff-pct-arrow{font-size:55%;color:var(--green2);letter-spacing:2px;opacity:.85;}
+.aff-pct-lbl{font-family:var(--ffd);font-size:clamp(18px,3vw,28px);color:var(--dark);letter-spacing:2px;text-transform:uppercase;margin-bottom:20px;}
+.aff-desc{font-size:16px;color:var(--muted);max-width:520px;margin:0 auto 40px;line-height:1.75;}
+.tier-wrap{max-width:960px;margin:0 auto;padding:0 28px 64px;}
+.tier-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px;margin-bottom:24px;}
+.tier-card{border-radius:14px;padding:32px 28px;border:2px solid var(--border);background:var(--bg2);text-align:center;transition:transform .2s,box-shadow .2s;}
+.tier-card:hover{transform:translateY(-3px);box-shadow:0 10px 28px rgba(24,203,150,.1);}
+.tier-growth{border-color:var(--green);background:#f4fdf9;box-shadow:0 6px 24px rgba(24,203,150,.1);}
+.tier-elite{border-color:var(--dark);background:#f0faf6;}
+.tier-badge{font-family:var(--ffm);font-size:10px;letter-spacing:2px;font-weight:700;text-transform:uppercase;color:var(--muted);margin-bottom:14px;display:block;}
+.tier-growth .tier-badge{color:var(--green2);} .tier-elite .tier-badge{color:var(--dark);}
+.tier-badge.pop::after{content:' ★ MOST POPULAR';color:var(--green2);}
+.tier-pct{font-family:var(--ffd);font-size:62px;line-height:1;letter-spacing:2px;margin-bottom:4px;color:var(--dark);}
+.tier-growth .tier-pct{color:var(--green2);}
+.tier-earn{font-size:15px;font-weight:600;color:var(--dark);margin-bottom:8px;}
+.tier-range{font-family:var(--ffm);font-size:11px;color:var(--muted);letter-spacing:.8px;background:rgba(0,0,0,.04);display:inline-block;padding:4px 12px;border-radius:20px;margin-bottom:20px;}
+.tier-perks{list-style:none;padding:0;text-align:left;border-top:1px solid var(--border);padding-top:16px;}
+.tier-perks li{font-size:13px;color:var(--muted);padding:6px 0;border-bottom:1px solid rgba(0,0,0,.04);}
+.tier-perks li:last-child{border-bottom:none;}
+.tier-note{background:rgba(24,203,150,.06);border:1px solid rgba(24,203,150,.2);border-radius:10px;padding:16px 20px;font-size:13px;color:var(--muted);display:flex;gap:10px;align-items:flex-start;line-height:1.6;}
+.tier-note strong{color:var(--dark);}
+.aff-cards{max-width:1160px;margin:0 auto;padding:0 28px 72px;display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:18px;}
+.aff-card{background:var(--bg2);border:1.5px solid var(--border);border-radius:var(--r);padding:28px;transition:border-color .2s,box-shadow .2s;}
+.aff-card:hover{border-color:var(--green);box-shadow:0 6px 20px rgba(24,203,150,.1);}
+.aff-card .aff-icon{font-size:30px;margin-bottom:14px;}
+.aff-card h4{font-size:15px;font-weight:600;margin-bottom:8px;color:var(--dark);}
+.aff-card p{font-size:13px;color:var(--muted);line-height:1.7;}
+.calc-wrap{max-width:580px;margin:0 auto;padding:0 28px 72px;}
+.calc-title{font-family:var(--ffd);font-size:38px;font-weight:400;letter-spacing:2px;text-transform:uppercase;text-align:center;margin-bottom:28px;color:var(--dark);}
+.calc-title span{color:var(--green);}
+.calc-row{background:var(--bg2);border:1.5px solid var(--border);border-radius:10px;padding:18px 22px;margin-bottom:12px;display:flex;align-items:center;gap:16px;}
+.calc-row label{font-size:13px;color:var(--muted);flex:1;}
+.calc-row input[type=range]{flex:2;accent-color:var(--green);cursor:pointer;}
+.calc-row .val{font-family:var(--ffm);font-size:13px;color:var(--dark);min-width:44px;text-align:right;}
+.calc-out{background:linear-gradient(135deg,rgba(24,203,150,.07),rgba(24,203,150,.02));border:1.5px solid rgba(24,203,150,.2);border-radius:12px;padding:28px;text-align:center;margin-top:8px;}
+.calc-out .clbl{font-family:var(--ffm);font-size:10px;letter-spacing:2px;color:var(--muted);text-transform:uppercase;margin-bottom:8px;}
+.calc-out .camt{font-family:var(--ffd);font-size:58px;color:var(--green2);font-weight:400;letter-spacing:2px;}
+.calc-out .cbrk{font-size:13px;color:var(--muted);margin-top:6px;}
+.aff-form-wrap{max-width:540px;margin:0 auto;padding:0 28px 88px;}
+.aff-form-wrap h3{font-family:var(--ffd);font-size:38px;font-weight:400;letter-spacing:2px;text-transform:uppercase;text-align:center;margin-bottom:28px;color:var(--dark);}
+.aff-link-box{display:none;background:rgba(24,203,150,.05);border:1.5px solid rgba(24,203,150,.3);border-radius:10px;padding:18px 20px;font-family:var(--ffm);font-size:12px;color:var(--green2);word-break:break-all;margin-top:18px;line-height:1.7;}
+
+/* ── MODAL ── */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.55);backdrop-filter:blur(8px);z-index:2000;display:none;align-items:center;justify-content:center;padding:20px;}
+.modal-overlay.open{display:flex;}
+.modal{background:#fff;border:1px solid var(--border);border-radius:16px;width:100%;max-width:480px;padding:40px;position:relative;animation:m-in .3s cubic-bezier(.34,1.56,.64,1);max-height:92vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.15);}
+@keyframes m-in{from{opacity:0;transform:translateY(20px) scale(.96);}to{opacity:1;transform:translateY(0) scale(1);}}
+.modal-close{position:absolute;top:16px;right:16px;background:none;border:none;color:var(--muted);font-size:24px;cursor:pointer;line-height:1;transition:color .2s;}
+.modal-close:hover{color:var(--dark);}
+.modal-title{font-family:var(--ffd);font-size:32px;font-weight:400;letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;color:var(--dark);}
+.modal-sub{color:var(--muted);font-size:13px;margin-bottom:24px;}
+.qr-box{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:20px;text-align:center;margin-bottom:18px;}
+.qr-box img{width:172px;height:172px;display:block;margin:0 auto 10px;}
+.qr-info{font-family:var(--ffm);font-size:11px;color:var(--muted);line-height:1.7;}
+.modal-amt{text-align:center;font-family:var(--ffd);font-size:38px;font-weight:400;letter-spacing:2px;text-transform:uppercase;color:var(--green2);margin-bottom:20px;}
+.modal-amt span{font-family:var(--ffb);font-size:14px;color:var(--muted);font-weight:300;}
+.sub-btn{width:100%;background:var(--green);color:#fff;font-family:var(--ffb);font-weight:700;font-size:15px;padding:15px;border:none;border-radius:8px;cursor:pointer;transition:all .2s;margin-top:4px;}
+.sub-btn:hover{background:var(--green2);}
+.sub-btn:disabled{background:var(--muted2);cursor:not-allowed;}
+.modal-note{text-align:center;font-size:12px;color:var(--muted);margin-top:12px;line-height:1.6;}
+.m-success{display:none;text-align:center;padding:20px 0;}
+.m-success .big-icon{font-size:60px;margin-bottom:16px;}
+.m-success h4{font-family:var(--ffd);font-size:32px;font-weight:400;letter-spacing:2px;text-transform:uppercase;color:var(--green2);margin-bottom:10px;}
+.m-success p{color:var(--muted);font-size:14px;line-height:1.7;}
+/* ── PHONE INPUT WITH PREFIX ── */
+.phone-wrap{display:flex;gap:0;border:1.5px solid var(--border);border-radius:8px;overflow:hidden;transition:border-color .2s;}
+.phone-wrap:focus-within{border-color:var(--green);}
+.phone-prefix{background:var(--bg2);border-right:1px solid var(--border);padding:11px 12px;font-family:var(--ffm);font-size:13px;color:var(--dark);white-space:nowrap;display:flex;align-items:center;gap:6px;flex-shrink:0;}
+.phone-wrap input{flex:1;border:none;outline:none;background:#fff;padding:11px 14px;color:var(--dark);font-family:var(--ffb);font-size:14px;}
+.phone-wrap input::placeholder{color:var(--muted2);}
+
+/* ── FOOTER ── */
+footer{border-top:1px solid var(--border);padding:40px 28px;text-align:center;background:var(--bg2);}
+.foot-logo{margin-bottom:14px;}
+.foot-logo img{height:28px;width:auto;object-fit:contain;}
+.foot-wm{font-family:var(--ffd);font-size:22px;letter-spacing:2px;color:var(--muted);display:none;}
+footer p{font-size:12px;color:var(--muted2);line-height:1.9;}
+footer a{color:var(--muted);text-decoration:none;}
+footer a:hover{color:var(--green2);}
+
+/* ── RESPONSIVE ── */
+@media(max-width:768px){
+  .hero{padding:72px 20px 52px;}
+  .section,.stripe,.testi-section,.feedback-section{padding:52px 20px;}
+  .baa{flex-direction:column;}
+  .baa-vs{width:100%;height:44px;writing-mode:horizontal-tb;}
+  .reality-cols,.fit-grid{grid-template-columns:1fr;}
+  .tier-grid{grid-template-columns:1fr;}
+  .steps::before{display:none;}
+  .vs-wrap{padding:28px 16px;}
+  .vs-tbl{font-size:12px;}
+  .vs-tbl th,.vs-tbl td{padding:8px 8px;}
+  .price-top,.price-feats,.price-cta{padding-left:20px;padding-right:20px;}
+  .modal{padding:24px 16px;}
+  .testi-grid{grid-template-columns:1fr;}
+  .rating-strip{gap:12px;}
+}
+</style>
+</head>
+<body>
+
+<!-- ── LIVE TICKER ── -->
+<div class="ticker-bar">
+  <div class="ticker-label">&#9679; NSE</div>
+  <div class="ticker-track" id="tickerTrack">
+    <div class="ticker-item"><span class="t-dot up"></span><span class="t-name">Loading live data...</span></div>
+  </div>
+</div>
+
+<!-- ── NAV ── -->
+<nav>
+  <div class="nav-inner">
+    <div class="nav-logo" onclick="switchTab('product');trackEvent('nav','logo_click');">
+      <img class="nav-logo-img" src="Wealthune_Logo.jpg" alt="Wealthune"
+           onerror="this.style.display='none';document.querySelector('.nav-wm').style.display='block';"/>
+      <span class="nav-wm">WEALTHUNE</span>
+      <span class="pro-badge">PRO</span>
+    </div>
+    <div class="tab-nav-d">
+      <button class="tab-btn active" id="tbtn-product" onclick="switchTab('product');trackEvent('nav','tab_scanners');">&#128200; Scanners</button>
+      <button class="tab-btn" id="tbtn-why" onclick="switchTab('why');trackEvent('nav','tab_why');">&#128161; Why This?</button>
+      <button class="tab-btn" id="tbtn-policy" onclick="switchTab('policy');trackEvent('nav','tab_policy');">&#128203; Policies</button>
+      <button class="tab-btn" id="tbtn-affiliate" onclick="switchTab('affiliate');trackEvent('nav','tab_affiliate');">&#128176; Earn with Us</button>
+    </div>
+  </div>
+</nav>
+
+<!-- ── MOBILE BOTTOM TAB BAR ── -->
+<div class="tab-nav-m">
+  <button class="tab-btn active" id="mbtn-product" onclick="switchTab('product')">
+    <span class="tbi">&#128200;</span>Scanners
+  </button>
+  <button class="tab-btn" id="mbtn-why" onclick="switchTab('why')">
+    <span class="tbi">&#128161;</span>Why This?
+  </button>
+  <button class="tab-btn" id="mbtn-policy" onclick="switchTab('policy')">
+    <span class="tbi">&#128203;</span>Policies
+  </button>
+  <button class="tab-btn" id="mbtn-affiliate" onclick="switchTab('affiliate')">
+    <span class="tbi">&#128176;</span>Earn
+  </button>
+</div>
+
+
+<!-- ══════════════════════════════════════════
+     TAB 1 — SCANNERS / PRODUCT
+══════════════════════════════════════════ -->
+<div class="tab-section active" id="tab-product">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-bg"></div><div class="hero-glow"></div>
+    <div class="hero-eye">Lifetime Access &middot; One-Time Download &middot; No Subscription</div>
+    <h1>Spot the Next<br><em>High-Probability</em><span class="h1-alt">Breakout Stocks</span></h1>
+    <p class="hero-tag">&mdash; your wealth tuner &mdash;</p>
+    <p class="hero-desc">A structured system of 11 powerful scanners &mdash; including 5 exclusive strategies &mdash; that filters out market noise and highlights high-probability breakout setups before they move.</p>
+    <div class="hero-btns">
+      <button class="btn-primary" onclick="openPayment();trackEvent('cta','hero_buy');">Get Instant Access &mdash; &#8377;3,999</button>
+      <button class="btn-ghost" onclick="document.getElementById('solution').scrollIntoView({behavior:'smooth'});">See How It Works &darr;</button>
+    </div>
+    <div class="hero-trust">
+      <span>&#10004; No false promises</span>
+      <span>&#10004; No guaranteed profit claims</span>
+      <span>&#10004; Built for real market conditions</span>
+    </div>
+    <!-- Overall rating strip under hero -->
+    <div class="rating-strip">
+      <div class="rating-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+      <div class="rating-score">4.7</div>
+      <div class="rating-meta"><strong>User Rating</strong><br/>Based on verified early trader reviews</div>
+    </div>
+  </section>
+
+  <!-- PROBLEM -->
+  <div class="stripe">
+    <div style="max-width:960px;margin:0 auto;text-align:center;">
+      <span class="stag" style="display:inline-block;">// the real problem</span>
+      <h2 class="st" style="margin-bottom:16px;">Every Day, Thousands of Stocks Move.<br><span>Only a Few Offer Real Opportunity.</span></h2>
+      <p style="font-size:16px;color:var(--muted);max-width:600px;margin:0 auto 48px;line-height:1.75;">Most traders struggle not because they lack knowledge &mdash; but because they don&apos;t have a system to find the right stocks at the right time.</p>
+      <div class="prob-trio">
+        <div class="prob-item"><div class="prob-icon">&#128269;</div><h4>They don&apos;t know where to look</h4><p>1,800+ NSE stocks move every day. Manual scanning is impossible &mdash; and random selection is no better than guessing.</p></div>
+        <div class="prob-item"><div class="prob-icon">&#9201;</div><h4>They miss moves before they happen</h4><p>By the time a stock appears on YouTube or Telegram, the move is already 30&ndash;50% done. You&apos;re always reacting, never anticipating.</p></div>
+        <div class="prob-item"><div class="prob-icon">&#128184;</div><h4>They pay for tips that don&apos;t transfer</h4><p>&#8377;5,000&ndash;&#8377;25,000/year for calls you can&apos;t understand, can&apos;t repeat, and can&apos;t apply when the advisor goes silent.</p></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SOLUTION -->
+  <div class="section" id="solution">
+    <span class="stag">// the solution</span>
+    <h2 class="st">Introducing the<br><span>11-Scanner Trading System</span></h2>
+    <p class="ssub">This is not just a collection of links. It&apos;s a structured framework combining momentum, volume, and reversal signals &mdash; filter 1,800+ stocks down to 5&ndash;10 high-quality setups in minutes.</p>
+    <div class="baa">
+      <div class="baa-col baa-before">
+        <div class="baa-lbl">WITHOUT WEALTHUNE PRO</div>
+        <ul class="baa-list">
+          <li>&#10060; 1,800+ stocks. No starting point.</li>
+          <li>&#10060; Hours on charts with no clear direction.</li>
+          <li>&#10060; Relying on random tips or social media picks.</li>
+          <li>&#10060; Missing breakouts that already happened.</li>
+          <li>&#10060; Paying &#8377;5,000&ndash;&#8377;50,000/year for someone else&apos;s calls.</li>
+          <li>&#10060; No repeatable system. No consistency.</li>
+        </ul>
+      </div>
+      <div class="baa-vs">VS</div>
+      <div class="baa-col baa-after">
+        <div class="baa-lbl">WITH WEALTHUNE PRO</div>
+        <ul class="baa-list">
+          <li>&#9989; 5&ndash;10 focused candidates. Every session.</li>
+          <li>&#9989; Scan the entire NSE market in seconds.</li>
+          <li>&#9989; Your own system &mdash; independent of anyone.</li>
+          <li>&#9989; Spot high-probability setups before they trigger.</li>
+          <li>&#9989; One-time &#8377;3,999. No renewal. Ever.</li>
+          <li>&#9989; Structured workflow. Repeatable process.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="div1"></div>
+
+  <!-- CUSTOM EDGE -->
+  <div class="stripe">
+    <div style="max-width:860px;margin:0 auto;text-align:center;">
+      <span class="stag" style="display:inline-block;">// what makes this different</span>
+      <h2 class="st" style="margin-bottom:16px;">These Aren&apos;t Generic Scanners.<br><span>They&apos;re Custom-Built.</span></h2>
+      <p style="font-size:16px;color:var(--muted);max-width:660px;margin:0 auto 40px;line-height:1.8;">While scanner names like MACD or RSI may sound familiar, the logic behind each scanner has been refined based on real trading experience &mdash; custom add-ons and modifications not available publicly, fine-tuned to surface higher-quality signals from the NSE universe.</p>
+      <div class="epills">
+        <div class="epill">&#9889; 5 exclusive scanner strategies</div>
+        <div class="epill">&#127919; Custom logic, not standard formulas</div>
+        <div class="epill">&#127470;&#127475; Built specifically for NSE stocks</div>
+        <div class="epill">&#128200; Refined from real trading experience</div>
+        <div class="epill">&#128279; Ready-to-use scanner links</div>
+        <div class="epill">&#127916; Demo video for every scanner</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCANNERS -->
+  <div class="section" id="scanners">
+    <span class="stag">// inside the system</span>
+    <h2 class="st">11 Scanners.<br><span>4 Signal Categories.</span></h2>
+    <p class="ssub">Each scanner detects specific market behaviour &mdash; not random signals. Here&apos;s what&apos;s inside and what each one helps you identify.</p>
+
+    <div class="sc-cat-row"><span class="sc-cat-badge mom">Momentum</span><span class="sc-cat-desc">Catch stocks accelerating before the crowd &mdash; early entries, stronger conviction</span></div>
+    <div class="sc-grid" style="margin-bottom:32px;">
+      <div class="sc-card mom"><div class="sc-head"><span class="sc-num">SC-01</span><span class="sc-tag mom">Momentum</span></div><div class="sc-title">MACD Daily Cross Over</div><div class="sc-desc">Detects daily MACD signal crossovers &mdash; custom-filtered to reduce false signals. Identifies when momentum is genuinely shifting direction.</div><div class="sc-out">&#128204; <em>Stocks gaining momentum before the move becomes obvious</em></div></div>
+      <div class="sc-card mom"><div class="sc-head"><span class="sc-num">SC-02</span><span class="sc-tag mom">Momentum</span></div><div class="sc-title">Momentum Burst</div><div class="sc-desc">Flags unusually strong price momentum relative to recent history. Catches acceleration events that often precede significant directional moves before the crowd notices.</div><div class="sc-out">&#128204; <em>Early-stage momentum surges before they trend on social media</em></div></div>
+      <div class="sc-card mom"><div class="sc-head"><span class="sc-num">SC-03</span><span class="sc-tag mom">Momentum</span></div><div class="sc-title">Tri-Confirmation Momentum</div><div class="sc-desc">The most selective scanner in the system. MACD + Supertrend + Volume must all align simultaneously &mdash; triple confirmation for highest-conviction entries only.</div><div class="sc-out">&#128204; <em>Highest-quality setups where all three signals agree at once</em></div></div>
+    </div>
+
+    <div class="sc-cat-row"><span class="sc-cat-badge rev">Reversal</span><span class="sc-cat-desc">Identify trend exhaustion early &mdash; before the reversal becomes obvious</span></div>
+    <div class="sc-grid" style="margin-bottom:32px;">
+      <div class="sc-card rev"><div class="sc-head"><span class="sc-num">SC-04</span><span class="sc-tag rev">Reversal</span></div><div class="sc-title">Reversal Stocks</div><div class="sc-desc">Scans for early structural signs of a trend change &mdash; stocks beginning to shift direction before the move becomes visible to the broader market.</div><div class="sc-out">&#128204; <em>Stocks at reversal inflection points before price confirms</em></div></div>
+      <div class="sc-card rev"><div class="sc-head"><span class="sc-num">SC-05</span><span class="sc-tag rev">Reversal</span></div><div class="sc-title">RSI Double Divergence Reversal</div><div class="sc-desc">Detects RSI double divergence &mdash; a pattern indicating trend exhaustion and high-probability reversals. One of the most powerful and under-used setups in technical analysis.</div><div class="sc-out">&#128204; <em>High-probability reversal candidates before price confirmation</em></div></div>
+    </div>
+
+    <div class="sc-cat-row"><span class="sc-cat-badge brk">Breakout</span><span class="sc-cat-desc">Find stocks about to break key structural levels &mdash; with volume conviction</span></div>
+    <div class="sc-grid" style="margin-bottom:32px;">
+      <div class="sc-card brk"><div class="sc-head"><span class="sc-num">SC-06</span><span class="sc-tag brk">Breakout</span></div><div class="sc-title">250 Days High Breakout Stocks</div><div class="sc-desc">Stocks breaking above their highest price in 250 trading days. Annual-level breakouts carry strong institutional attention and follow-through momentum.</div><div class="sc-out">&#128204; <em>Major structural breakouts with institutional attention</em></div></div>
+      <div class="sc-card brk"><div class="sc-head"><span class="sc-num">SC-07</span><span class="sc-tag brk">Breakout</span></div><div class="sc-title">High-Volume Breakout</div><div class="sc-desc">Breakout moves where volume validates the price action. Specifically filters for conviction &mdash; eliminating low-quality breakouts that quickly reverse.</div><div class="sc-out">&#128204; <em>Volume-confirmed breakouts less likely to be false moves</em></div></div>
+      <div class="sc-card brk"><div class="sc-head"><span class="sc-num">SC-08</span><span class="sc-tag brk">Breakout</span></div><div class="sc-title">Low Volatility, Breakout Potential</div><div class="sc-desc">Identifies stocks in historically narrow price ranges &mdash; coiled springs under low volatility that often precede explosive moves when the range finally breaks.</div><div class="sc-out">&#128204; <em>Pre-breakout setups to watch before the trigger fires</em></div></div>
+    </div>
+
+    <div class="sc-cat-row"><span class="sc-cat-badge vol">Volume Intelligence</span><span class="sc-cat-desc">Track smart money &mdash; where volume tells a different story than price alone</span></div>
+    <div class="sc-grid">
+      <div class="sc-card vol"><div class="sc-head"><span class="sc-num">SC-09</span><span class="sc-tag vol">Volume</span></div><div class="sc-title">Weekly Volume Breakthrough</div><div class="sc-desc">Current weekly volume at an all-time high vs. historical data. When institutions accumulate, weekly volume spikes before the price move &mdash; this scanner tracks that.</div><div class="sc-out">&#128204; <em>Unusual smart money activity on the weekly timeframe</em></div></div>
+      <div class="sc-card vol"><div class="sc-head"><span class="sc-num">SC-10</span><span class="sc-tag vol">Volume</span></div><div class="sc-title">20-Day High Volume Surge</div><div class="sc-desc">Stocks at their highest volume in 20 days. Volume precedes price &mdash; this scanner flags unusual activity before the broader market catches on.</div><div class="sc-out">&#128204; <em>Sudden volume interest &mdash; potential for near-term price moves</em></div></div>
+      <div class="sc-card vol"><div class="sc-head"><span class="sc-num">SC-11</span><span class="sc-tag vol">Volume</span></div><div class="sc-title">VWAP Volume Shockers</div><div class="sc-desc">Tracks sudden volume expansion near VWAP &mdash; revealing high-intent price action and strong market participation. Useful for identifying intraday breakout setups.</div><div class="sc-out">&#128204; <em>VWAP-aligned volume activity &mdash; smart money in motion</em></div></div>
+    </div>
+  </div>
+
+  <div class="div1"></div>
+
+  <!-- WHAT YOU GET -->
+  <div class="section">
+    <span class="stag">// complete package</span>
+    <h2 class="st">Everything Inside<br><span>Wealthune Pro</span></h2>
+    <p class="ssub">One PDF. Lifetime access. Everything you need to start from Day 1.</p>
+    <div class="dlv-grid">
+      <div class="dlv-card"><div class="dlv-icon">&#128279;</div><h4>11 Ready-to-Use Scanner Links</h4><p>All 11 scanner links, one click to run. Filters 1,800+ NSE stocks instantly &mdash; including 5 exclusive custom strategies.</p></div>
+      <div class="dlv-card"><div class="dlv-icon">&#128196;</div><h4>Step-by-Step PDF Guide</h4><p>Detailed explanation of each scanner &mdash; what it detects, what to check next, how to use it in your daily workflow.</p></div>
+      <div class="dlv-card"><div class="dlv-icon">&#127916;</div><h4>Demo Video Per Scanner</h4><p>A dedicated walkthrough video for each scanner &mdash; when it triggers, what it means, and how to decide your next move.</p></div>
+      <div class="dlv-card"><div class="dlv-icon">&#128260;</div><h4>Scanner Combination Strategy</h4><p>How to use multiple scanners together for higher-conviction setups. Full workflow: Scan &#8594; Filter &#8594; Analyse &#8594; Decide.</p></div>
+      <div class="dlv-card"><div class="dlv-icon">&#128203;</div><h4>Trade Filtering Checklist</h4><p>A structured checklist for every scanner output &mdash; so you never enter a setup without full context and a clear plan.</p></div>
+      <div class="dlv-card"><div class="dlv-icon">&#9854;</div><h4>Lifetime Access + 12-Month Updates</h4><p>No expiry. No annual renewal. Scanner updates included for 12 months. One payment &mdash; owned forever.</p></div>
+    </div>
+  </div>
+
+  <div class="div1"></div>
+
+  <!-- WORKFLOW -->
+  <div class="stripe">
+    <div style="max-width:900px;margin:0 auto;text-align:center;">
+      <span class="stag" style="display:inline-block;">// the workflow</span>
+      <h2 class="st" style="margin-bottom:14px;">From Scanner to<br><span>Trade Decision in 4 Steps</span></h2>
+      <p style="font-size:15px;color:var(--muted);max-width:540px;margin:0 auto 48px;line-height:1.75;">Decision support &mdash; a structured process that gives you a focused starting point, not a final answer.</p>
+      <div class="steps">
+        <div class="step"><div class="step-num">1</div><h4>Run the Scanner</h4><p>Open your scanner link. Filters 1,800+ NSE stocks in seconds.</p></div>
+        <div class="step"><div class="step-num">2</div><h4>Review the Output</h4><p>Open charts. Check price structure, trend context, where the stock is coming from.</p></div>
+        <div class="step"><div class="step-num">3</div><h4>Confirm &amp; Plan</h4><p>Check volume, support/resistance, risk-reward. Plan entry, target, stop-loss.</p></div>
+        <div class="step"><div class="step-num">4</div><h4>Execute with Clarity</h4><p>Add best candidates to watchlist. Execute when your setup triggers with full context.</p></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ TESTIMONIALS ══ -->
+  <div class="testi-section">
+    <div class="testi-inner">
+      <div class="testi-header">
+        <span class="stag">// user reviews</span>
+        <h2>What Traders <span>Are Saying</span></h2>
+        <div class="testi-overall">
+          <span class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+          <span class="score">4.7 / 5</span>
+          <span class="based">Verified Users</span>
+        </div>
+      </div>
+
+      <div class="testi-grid">
+        <!-- Testimonial 1 -->
+        <div class="testi-card">
+          <div class="testi-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+          <p class="testi-text">"I used to spend 2&ndash;3 hours every day just scanning charts. Now I just run this and get a clean list of stocks matching my setup. Saves me a lot of time and I feel more focused before the market opens."</p>
+          <div class="testi-author">
+            <div class="testi-avatar">H</div>
+            <div>
+              <div class="testi-name">Hema R.<span class="testi-tag">Verified</span></div>
+              <div class="testi-role">Intraday Trader &middot; Chennai</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Testimonial 2 -->
+        <div class="testi-card">
+          <div class="testi-stars">&#9733;&#9733;&#9733;&#9733;&#9734;</div>
+          <p class="testi-text">"I&apos;ve tried a couple of scanners before, but most of them gave too many random results. This one is actually useful once you set your conditions properly. The volume scanners in particular are quite good."</p>
+          <div class="testi-author">
+            <div class="testi-avatar">M</div>
+            <div>
+              <div class="testi-name">Mathan K.<span class="testi-tag">Verified</span></div>
+              <div class="testi-role">Swing Trader &middot; Bangalore</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Testimonial 3 -->
+        <div class="testi-card">
+          <div class="testi-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+          <p class="testi-text">"Took me a little time to understand all the filters, but once I got used to it, it became part of my daily routine. The step-by-step guide and the demo videos really helped in the beginning."</p>
+          <div class="testi-author">
+            <div class="testi-avatar">S</div>
+            <div>
+              <div class="testi-name">Selvam P.<span class="testi-tag">Verified</span></div>
+              <div class="testi-role">Intraday Trader &middot; Hyderabad</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Invite to leave feedback -->
+      <div style="text-align:center;">
+        <p style="color:rgba(255,255,255,0.55);font-size:14px;margin-bottom:16px;">Already using Wealthune Pro? Share your experience.</p>
+        <button class="btn-primary" onclick="switchTab('product');setTimeout(function(){document.getElementById('feedbackSection').scrollIntoView({behavior:'smooth'});},300);" style="background:transparent;border:1.5px solid rgba(24,203,150,0.5);color:var(--green);">Leave Your Feedback &#8594;</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ USER FEEDBACK FORM ══ -->
+  <div class="feedback-section" id="feedbackSection">
+    <div class="feedback-inner">
+      <span class="stag" style="display:inline-block;text-align:center;">// your turn</span>
+      <h2>Share Your <span>Experience</span></h2>
+      <p>Already using Wealthune Pro? Your honest feedback helps us improve the system and helps other traders make an informed decision.</p>
+
+      <div class="feedback-form">
+        <div id="feedbackFormFields">
+          <!-- Star Rating -->
+          <div class="fg">
+            <label>Your Rating *</label>
+            <div class="star-picker" id="starPicker">
+              <input type="radio" name="rating" id="s5" value="5"/><label for="s5" id="sl5">&#9733;</label>
+              <input type="radio" name="rating" id="s4" value="4"/><label for="s4" id="sl4">&#9733;</label>
+              <input type="radio" name="rating" id="s3" value="3"/><label for="s3" id="sl3">&#9733;</label>
+              <input type="radio" name="rating" id="s2" value="2"/><label for="s2" id="sl2">&#9733;</label>
+              <input type="radio" name="rating" id="s1" value="1"/><label for="s1" id="sl1">&#9733;</label>
+            </div>
+          </div>
+          <div class="fg"><label>Your Name *</label><input type="text" id="fb-name" placeholder="e.g. Rahul S."/></div>
+          <div class="fg"><label>Your Trading Style</label>
+            <select id="fb-style">
+              <option value="">Select your style</option>
+              <option>Intraday Trader</option>
+              <option>Swing Trader</option>
+              <option>Positional Trader</option>
+              <option>Long-term Investor</option>
+            </select>
+          </div>
+          <div class="fg"><label>Your Feedback *</label><textarea id="fb-text" rows="4" placeholder="Tell us honestly how you're finding the scanners — what works, what could be better..."></textarea></div>
+          <div class="fg"><label>Email </label><input type="email" id="fb-email" placeholder="your@email.com"/></div>
+          <button class="btn-primary" style="width:100%;padding:15px;font-size:15px;" onclick="submitFeedback();trackEvent('feedback','submitted');">Submit My Feedback</button>
+          <p style="font-size:11px;color:var(--muted2);text-align:center;margin-top:10px;line-height:1.5;">Your feedback may be featured on this page (with your permission). We never share your email.</p>
+        </div>
+        <div class="feedback-success" id="feedbackSuccess">
+          <div class="fs-icon">&#127881;</div>
+          <h4>Thank You!</h4>
+          <p>Your feedback has been recorded. We genuinely appreciate you taking the time to share your experience with Wealthune Pro.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- REALITY CHECK -->
+  <div class="section">
+    <div class="reality">
+      <div class="reality-icon">&#9878;</div>
+      <h3>Let&apos;s Be Honest With You</h3>
+      <p class="reality-lead">No scanner can guarantee profits. Markets are dynamic and unpredictable. Not every setup will work &mdash; and that&apos;s the truth any serious trading tool should tell you upfront. Our honesty is our credibility.</p>
+      <div class="reality-cols">
+        <div class="reality-col">
+          <h5>What this does NOT do</h5>
+          <ul>
+            <li>&#10060; Guarantee profitable trades</li>
+            <li>&#10060; Replace your own analysis &amp; judgment</li>
+            <li>&#10060; Predict markets or future price movements</li>
+            <li>&#10060; Make trading decisions on your behalf</li>
+          </ul>
+        </div>
+        <div class="reality-col">
+          <h5>What this DOES do</h5>
+          <ul>
+            <li>&#9989; Improve your stock selection process</li>
+            <li>&#9989; Help you act earlier than the crowd</li>
+            <li>&#9989; Give you a structured, repeatable approach</li>
+            <li>&#9989; Save hours of manual market scanning daily</li>
+          </ul>
+        </div>
+      </div>
+      <p class="reality-foot">That&apos;s your edge &mdash; not a guarantee, a structured advantage that compounds over time.</p>
+    </div>
+  </div>
+
+  <div class="div1"></div>
+
+  <!-- WHO IT'S FOR -->
+  <div class="stripe">
+    <div style="max-width:900px;margin:0 auto;">
+      <div style="text-align:center;margin-bottom:44px;">
+        <span class="stag" style="display:inline-block;">// is this for you?</span>
+        <h2 class="st" style="margin-bottom:0;">Who This Is <span>Built For</span></h2>
+      </div>
+      <div class="fit-grid">
+        <div class="fit-col fit-yes">
+          <div class="fit-hdr">&#9989; This IS for you if...</div>
+          <ul>
+            <li>You trade NSE stocks and want a better starting point</li>
+            <li>You&apos;re tired of random stock selection or tip-chasing</li>
+            <li>You want a systematic, repeatable scanning workflow</li>
+            <li>You&apos;re willing to do your own analysis after shortlisting</li>
+            <li>You want to improve decision quality &mdash; not outsource it</li>
+            <li>You want a one-time investment over annual subscriptions</li>
+          </ul>
+        </div>
+        <div class="fit-col fit-no">
+          <div class="fit-hdr">&#10060; This is NOT for you if...</div>
+          <ul>
+            <li>You want someone to tell you exactly what to buy or sell</li>
+            <li>You expect scanners to guarantee profitable trades</li>
+            <li>You&apos;re looking for shortcuts without any analysis</li>
+            <li>You believe any tool can replace market knowledge</li>
+            <li>You want daily &ldquo;hot tips&rdquo; delivered to your phone</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FIX #2: HOW TO PURCHASE — Process explanation -->
+  <div class="stripe" id="howToBuy">
+    <div style="max-width:880px;margin:0 auto;text-align:center;">
+      <span class="stag" style="display:inline-block;">// simple process</span>
+      <h2 class="st" style="margin-bottom:14px;">How to <span>Get Your Scanners</span></h2>
+      <p style="font-size:15px;color:var(--muted);max-width:540px;margin:0 auto 48px;line-height:1.75;">Four easy steps — from payment to receiving your PDF on email. No accounts, no login required.</p>
+      <div class="steps" style="grid-template-columns:repeat(auto-fit,minmax(180px,1fr));">
+        <div class="step">
+          <div class="step-num">1</div>
+          <h4>Pay via UPI</h4>
+          <p>Click "Get Access", scan the QR code or use the UPI ID, and pay ₹3,999 using PhonePe, GPay, or any UPI app.</p>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <h4>Note Your UTR</h4>
+          <p>After payment, open your UPI app → Transactions → tap your payment → copy the 12-digit UTR / Transaction Ref number.</p>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <h4>Submit Your Details</h4>
+          <p>Enter your name, email address, phone number, and the UTR number in the order form. Double-check your email — that's where your PDF goes.</p>
+        </div>
+        <div class="step">
+          <div class="step-num">4</div>
+          <h4>Get Your PDF in 30 Mins</h4>
+          <p>We verify your payment and email you the Wealthune Pro PDF within 30 minutes (9 AM – 9 PM IST). Check spam if it doesn't arrive.</p>
+        </div>
+      </div>
+      <div style="margin-top:36px;background:#f0fdf8;border:1px solid rgba(24,203,150,.3);border-radius:10px;padding:14px 24px;display:inline-block;">
+        <p style="font-size:13px;color:var(--muted);margin:0;">⏰ <strong style="color:var(--dark);">Delivery hours: 9 AM – 9 PM IST daily.</strong> Orders after 9 PM are processed first thing next morning. You'll get a confirmation email immediately after submission.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- PRICING -->
+  <div class="section" style="padding-bottom:88px;">
+    <div style="text-align:center;margin-bottom:44px;">
+      <span class="stag" style="display:inline-block;">// one-time investment</span>
+      <h2 class="st" style="text-align:center;">You Could Spend Months<br><span>Building This Yourself.</span></h2>
+      <p class="ssub" style="text-align:center;margin-left:auto;margin-right:auto;">Or get a ready-to-use system today &mdash; lifetime access, video guides, structured workflow. No renewals. Ever.</p>
+    </div>
+    <div class="price-outer">
+      <div class="price-top">
+        <div class="plabel">Wealthune Pro &mdash; Introductory Price</div>
+        <div class="price-old">&#8377;6,999</div>
+        <div class="price-big"><sup>&#8377;</sup>3,999</div>
+        <div class="price-badge">Save &#8377;3,000 &middot; Limited Launch Offer</div>
+      </div>
+      <div class="price-feats">
+        <div class="pf"><span class="pf-ck">&#10003;</span><span>All 11 scanner links &mdash; incl. 5 exclusive strategies</span></div>
+        <div class="pf"><span class="pf-ck">&#10003;</span><span>Demo video per scanner &mdash; trigger, concept &amp; what to do next</span></div>
+        <div class="pf"><span class="pf-ck">&#10003;</span><span>Step-by-step PDF guide + scanner combination strategy</span></div>
+        <div class="pf"><span class="pf-ck">&#10003;</span><span>Trade filtering checklist for structured decision-making</span></div>
+        <div class="pf"><span class="pf-ck">&#10003;</span><span>Lifetime access &mdash; no expiry, no monthly charge, no renewal</span></div>
+        <div class="pf"><span class="pf-ck">&#10003;</span><span>Instant PDF delivery to your email within 30 minutes</span></div>
+        <div class="pf"><span class="pf-ck">&#10003;</span><span>Scanner updates included for 12 months</span></div>
+      </div>
+      <div class="price-cta">
+        <button class="btn-primary" style="width:100%;font-size:15px;padding:17px;" onclick="openPayment();trackEvent('cta','pricing_buy');">&#128274; Get Instant Access &mdash; &#8377;3,999</button>
+        <p class="price-note">Secure UPI payment &middot; Delivery within 30 minutes &middot; Technical support guaranteed<br/>Need help? <a href="/cdn-cgi/l/email-protection#364153575a425e43585376515b575f5a1855595b" style="color:var(--green2);"><span class="__cf_email__" data-cfemail="1562707479617d607b70557278747c793b767a78">[email&#160;protected]</span></a></p>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /tab-product -->
+
+
+<!-- ══════════════════════════════════════════
+     TAB 2 — WHY THIS?
+══════════════════════════════════════════ -->
+<div class="tab-section" id="tab-why">
+  <div class="section" style="padding-bottom:40px;">
+    <span class="stag">// the problem with tips</span>
+    <h2 class="st">Every Trader Has <span>Wasted</span><br>Money on These</h2>
+    <p class="ssub">Thousands of Indian traders pay recurring fees every year hoping to get an edge &mdash; and still lose because they&apos;re following someone else&apos;s decisions instead of building their own system.</p>
+    <div class="pain-grid">
+      <div class="pain-card"><span class="icon">&#128241;</span><h4>Paid Telegram &ldquo;Call&rdquo; Channels</h4><p>Most premium stock tip channels in India charge &#8377;5,000&ndash;&#8377;25,000 per year. You get calls with zero explanation. You can&apos;t learn. You can&apos;t repeat it. When the channel goes quiet, you&apos;re back to zero.</p></div>
+      <div class="pain-card"><span class="icon">&#128250;</span><h4>YouTube &ldquo;Breakout Stock&rdquo; Videos</h4><p>By the time a YouTuber posts their video, the setup is already partially played out or front-run by their own audience. You&apos;re always a step behind the crowd.</p></div>
+      <div class="pain-card"><span class="icon">&#128038;</span><h4>Twitter / Instagram &ldquo;Influencer&rdquo; Tips</h4><p>Stock picks shared on social media reach lakhs simultaneously. The moment you act, you&apos;re competing with everyone who saw the same post. Alpha evaporates instantly.</p></div>
+      <div class="pain-card"><span class="icon">&#128202;</span><h4>Paid Advisory Services</h4><p>SEBI-registered advisory firms charge &#8377;15,000&ndash;&#8377;50,000+ annually. Some premium HNI services charge &#8377;48,750&ndash;&#8377;1,49,000 per month. Designed for their portfolio &mdash; not yours.</p></div>
+      <div class="pain-card"><span class="icon">&#128172;</span><h4>WhatsApp &ldquo;Operator&rdquo; Groups</h4><p>Paid WhatsApp groups often run pump-and-dump operations. The operator buys first, tells you to buy, and exits when you enter. These are illegal under SEBI regulations.</p></div>
+      <div class="pain-card"><span class="icon">&#128260;</span><h4>The Dependency Trap</h4><p>Every year you renew. Every year you pay again. You never learn to find stocks yourself. You remain dependent on someone else&apos;s analysis, schedule, and priorities &mdash; forever.</p></div>
+    </div>
+  </div>
+  <div class="div1"></div>
+  <div class="section" style="padding-top:60px;padding-bottom:60px;">
+    <span class="stag">// the comparison</span>
+    <h2 class="st">What &#8377;3,999<br><span>Actually Buys You</span></h2>
+    <p class="ssub">Compare what Indian traders typically spend on tips &amp; signals versus what Wealthune Pro gives you for a one-time investment.</p>
+    <div class="vs-wrap">
+      <h3>The true cost of <span>following others</span> vs. owning your own system</h3>
+      <table class="vs-tbl">
+        <thead><tr><th>Platform / Service</th><th>Annual Cost</th><th>What You Get</th><th>vs. Wealthune</th></tr></thead>
+        <tbody>
+          <tr><td>Paid Telegram Call Group</td><td class="bad">&#8377;5,000&ndash;&#8377;25,000/yr</td><td class="bad">Someone else&apos;s calls. No learning.</td><td class="good">&mdash;</td></tr>
+          <tr><td>Premium Advisory (SEBI RA)</td><td class="bad">&#8377;15,000&ndash;&#8377;50,000/yr</td><td class="bad">Personalised picks, no skill transfer.</td><td class="good">&mdash;</td></tr>
+          <tr><td>YouTube / Instagram Premium</td><td class="bad">&#8377;3,000&ndash;&#8377;12,000/yr</td><td class="bad">Delayed. Already front-run.</td><td class="good">&mdash;</td></tr>
+          <tr><td>Stock Screener Subscriptions</td><td class="bad">&#8377;2,000&ndash;&#8377;8,000/yr</td><td class="bad">Raw data. No pre-built logic.</td><td class="good">&mdash;</td></tr>
+          <tr class="vs-win"><td><strong>Wealthune Pro</strong></td><td class="good">&#8377;3,999 one-time</td><td class="good">11 custom scanners. Yours forever.</td><td class="good">&#10003; Lifetime</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="why-cards">
+      <div class="why-card"><div class="num">01</div><h4>Your Own Edge, Not Someone Else&apos;s</h4><p>You run the scanner. You review the output. You make the call. This is how independent traders build repeatable systems &mdash; not by following tips.</p></div>
+      <div class="why-card"><div class="num">02</div><h4>No More Renewal Anxiety</h4><p>Every paid call group expires. Every advisory subscription needs renewal. Wealthune Pro doesn&apos;t. Pay once, use forever &mdash; with zero dependency on anyone.</p></div>
+      <div class="why-card"><div class="num">03</div><h4>Speed at Scale</h4><p>Manually scanning 1,800+ NSE stocks takes hours. These scanners do it in seconds. Every day. Before the market opens. While others are still scrolling Twitter.</p></div>
+      <div class="why-card"><div class="num">04</div><h4>Learn While You Use</h4><p>Every scanner has a video explaining its concept. You&apos;re not just getting tools &mdash; you&apos;re upgrading your own market understanding with every scan.</p></div>
+      <div class="why-card"><div class="num">05</div><h4>Works on Your Schedule</h4><p>Run at 8 AM before markets open, or Sunday afternoon for the week. No waiting for someone to post their analysis. The scanner works when you do.</p></div>
+      <div class="why-card"><div class="num">06</div><h4>Built for Indian Markets</h4><p>Every scanner is calibrated for NSE-listed equities &mdash; not adapted from US or global screeners. Built ground-up for the Nifty universe.</p></div>
+    </div>
+    <div style="text-align:center;margin-top:52px;">
+      <p style="font-style:italic;font-size:18px;color:var(--muted);margin-bottom:24px;line-height:1.7;">Stop paying every year for someone else&apos;s opinion.<br>Start building your own edge &mdash; once, for life.</p>
+      <button class="btn-primary" style="font-size:15px;padding:17px 44px;" onclick="openPayment();trackEvent('cta','why_tab_buy');">Get Wealthune Pro &mdash; &#8377;3,999</button>
+    </div>
+  </div>
+</div><!-- /tab-why -->
+
+
+<!-- ══════════════════════════════════════════
+     TAB 3 — POLICIES
+══════════════════════════════════════════ -->
+<div class="tab-section" id="tab-policy">
+  <div class="pol-wrap">
+    <div class="pol-tabs">
+      <button class="ptab active" onclick="switchPolicy('terms',this)">Terms &amp; Conditions</button>
+      <button class="ptab" onclick="switchPolicy('refund',this)">Purchase Policy</button>
+      <button class="ptab" onclick="switchPolicy('privacy',this)">Privacy Policy</button>
+    </div>
+
+    <div class="pdoc active" id="pdoc-terms">
+      <h2>Terms &amp; Conditions</h2>
+      <div class="upd">LAST UPDATED &mdash; 2025</div>
+      <h3>1. Acceptance</h3>
+      <p>By purchasing Wealthune Pro, you agree to be bound by these Terms and Conditions in full. Please read them carefully before completing your purchase.</p>
+      <h3>2. Product Description</h3>
+      <p>Wealthune Pro is a digital product consisting of a PDF document containing 11 stock scanner links, their descriptions, usage guides, and linked video explanations. The product is intended for educational and informational purposes only.</p>
+      <h3>3. Important Disclaimer &mdash; Not Investment Advice</h3>
+      <p>Wealthune scanners are tools for stock discovery only. Wealthune is NOT a SEBI-registered Investment Advisor or Research Analyst. The scanners are NOT buy or sell signals, NOT investment advice, and NOT recommendations. All trading decisions, risks, and outcomes are solely the responsibility of the user.</p>
+      <h3>4. License &amp; Usage</h3>
+      <p>Your purchase grants a personal, non-transferable, non-exclusive license to use the product for your own research. You may not resell, redistribute, share, or reproduce the PDF or its contents in any form.</p>
+      <h3>5. Affiliate Program</h3>
+      <p>Commissions are tiered: 25% (&#8377;999/sale) for sales 1&ndash;149; 30% (&#8377;1,199/sale) for sales 150&ndash;299; 35% (&#8377;1,399/sale) for sales 300+. Rates upgrade automatically. Payouts are processed monthly.</p>
+      <h3>5a. TDS on Affiliate Commissions</h3>
+      <p>Affiliate commissions are subject to TDS as per the Income Tax Act, 1961. A TDS of <strong>5%</strong> (or <strong>20%</strong> if PAN is not provided) will be deducted on commissions exceeding <strong>&#8377;15,000</strong> in a financial year under <strong>Section 194H</strong>.</p>
+      <p>TDS is not an additional charge and can be claimed as a credit or refund while filing your income tax return. A TDS certificate (<strong>Form 16A</strong>) will be provided to all affiliates on whom TDS has been deducted.</p>
+      <h3>6. Limitation of Liability</h3>
+      <p>Wealthune is not liable for any trading losses or financial damages from the use of these scanners. Market conditions are dynamic; no scanner outcome is guaranteed.</p>
+      <h3>7. Contact</h3>
+      <p>For all queries: <strong><a href="/cdn-cgi/l/email-protection#97e0f2f6fbe3ffe2f9f2d7f0faf6fefbb9f4f8fa" style="color:var(--green2);"><span class="__cf_email__" data-cfemail="82f5e7e3eef6eaf7ece7c2e5efe3ebeeace1edef">[email&#160;protected]</span></a></strong></p>
+    </div>
+
+    <div class="pdoc" id="pdoc-refund">
+      <h2>Purchase Policy</h2>
+      <div class="upd">LAST UPDATED &mdash; 2025</div>
+      <h3>Our Commitment to You</h3>
+      <p>At Wealthune, we take the quality of our product seriously. Every scanner link and video guide is tested and verified before delivery. We want every buyer to have a smooth, valuable experience from the moment they receive their PDF.</p>
+      <h3>Digital Product &mdash; Purchase is Final</h3>
+      <p>Wealthune Pro is a digital product delivered instantly upon payment verification. As with all digital goods, the purchase is final and non-refundable once the product has been delivered to your registered email address.</p>
+      <h3>Technical Glitch? We&apos;ll Make It Right.</h3>
+      <p>If you experience a genuine technical issue &mdash; a scanner link that doesn&apos;t load, a video that doesn&apos;t play, or a PDF that was undeliverable due to an error on our end &mdash; we will resolve it promptly and completely.</p>
+      <p>Situations where we will issue a full refund or replacement:</p>
+      <ul>
+        <li>PDF was not delivered within 2 hours of verified payment due to a system error</li>
+        <li>A scanner link is broken and we cannot repair it within 48 hours</li>
+        <li>You were charged but received no order confirmation and no product</li>
+        <li>A duplicate payment was made in error for the same order</li>
+      </ul>
+      <h3>How to Reach Us</h3>
+      <p>Email <strong><a href="/cdn-cgi/l/email-protection#493e2c28253d213c272c092e24282025672a2624" style="color:var(--green2);"><span class="__cf_email__" data-cfemail="dcabb9bdb0a8b4a9b2b99cbbb1bdb5b0f2bfb3b1">[email&#160;protected]</span></a></strong> with your UTR / transaction number and a description of the issue. We respond within 24–48 business hours.</p>
+    </div>
+
+    <div class="pdoc" id="pdoc-privacy">
+      <h2>Privacy Policy</h2>
+      <div class="upd">LAST UPDATED &mdash; 2025</div>
+      <h3>Data We Collect</h3>
+      <ul>
+        <li>Email address &mdash; for product delivery</li>
+        <li>Phone number &mdash; optional, for order confirmation</li>
+        <li>UPI / UTR transaction reference &mdash; for payment verification</li>
+        <li>Name &mdash; optional</li>
+      </ul>
+      <h3>How We Use It</h3>
+      <ul>
+        <li>To deliver your purchased product via email</li>
+        <li>To send order confirmation and updates</li>
+        <li>To notify you of future Wealthune products (you may opt out at any time)</li>
+        <li>To verify payments and prevent fraud</li>
+      </ul>
+      <h3>Storage &amp; Security</h3>
+      <p>Your data is stored in a private Google Sheet accessible only to the Wealthune team. We do not sell, rent, or share your personal information with any third party.</p>
+      <h3>Cookies &amp; Analytics</h3>
+      <p>This website uses Google Analytics to understand page traffic patterns (page views, session duration, traffic sources). No personally identifiable data is collected through analytics. Affiliate tracking is done via URL query parameters (?ref=ID) only.</p>
+      <h3>Your Rights</h3>
+      <p>You may request deletion of your personal data at any time by emailing <strong><a href="/cdn-cgi/l/email-protection#d6a1b3b7baa2bea3b8b396b1bbb7bfbaf8b5b9bb" style="color:var(--green2);"><span class="__cf_email__" data-cfemail="e29587838e968a978c87a2858f838b8ecc818d8f">[email&#160;protected]</span></a></strong>. We will process all deletion requests within 7 working days.</p>
+      <p>You may request deletion of your personal data at any time by emailing <strong><a href="/cdn-cgi/l/email-protection#b3c4d6d2dfc7dbc6ddd6f3d4ded2dadf9dd0dcde" style="color:var(--green2);"><span class="__cf_email__" data-cfemail="3443515558405c415a51745359555d581a575b59">[email&#160;protected]</span></a></strong>. We will process all deletion requests within 7 working days.</p>
+      
+    </div>
+  </div>
+</div><!-- /tab-policy -->
+
+
+<!-- ══════════════════════════════════════════
+     TAB 4 — AFFILIATE
+══════════════════════════════════════════ -->
+<div class="tab-section" id="tab-affiliate">
+
+  <div class="aff-hero">
+    <div class="aff-eye">// Wealthune Affiliate Program &mdash; Open to Everyone</div>
+    <div class="aff-pct">25%<span class="aff-pct-arrow"> &rarr; 35%</span></div>
+    <div class="aff-pct-lbl">Growing Commission &mdash; Earn More as You Sell More</div>
+    <p class="aff-desc">Start at 25% and grow up to 35% as your cumulative sales increase. Earn &#8377;999&ndash;&#8377;1,399 on every verified sale &mdash; no monthly targets, no deadlines, no cap on earnings.</p>
+    <button class="btn-primary" onclick="document.getElementById('aff-join').scrollIntoView({behavior:'smooth'});trackEvent('affiliate','get_link_click');">Join Free &mdash; Get My Link</button>
+  </div>
+
+  <div class="tier-wrap">
+    <div style="text-align:center;margin-bottom:32px;">
+      <span class="stag" style="display:inline-block;">// commission tiers</span>
+      <h2 class="st" style="margin-bottom:12px;">The More You Sell,<br><span>The More You Earn</span></h2>
+      <p style="font-size:15px;color:var(--muted);max-width:520px;margin:0 auto;line-height:1.75;">Your commission rate grows automatically as your total verified sales increase. Tiers unlock the moment you cross the threshold &mdash; no action needed.</p>
+    </div>
+    <div class="tier-grid">
+      <div class="tier-card tier-starter">
+        <div class="tier-badge">STARTER</div>
+        <div class="tier-pct">25%</div>
+        <div class="tier-earn">&#8377;999 per sale</div>
+        <div class="tier-range">Sales 1 &mdash; 149</div>
+        <ul class="tier-perks">
+          <li>&#10003; Instant link activation</li>
+          <li>&#10003; Monthly UPI payouts</li>
+          <li>&#10003; Full sales tracking report</li>
+          <li>&#10003; No minimum sales target</li>
+        </ul>
+      </div>
+      <div class="tier-card tier-growth">
+        <div class="tier-badge pop">GROWTH</div>
+        <div class="tier-pct">30%</div>
+        <div class="tier-earn">&#8377;1,199 per sale</div>
+        <div class="tier-range">Sales 150 &mdash; 299</div>
+        <ul class="tier-perks">
+          <li>&#10003; Everything in Starter</li>
+          <li>&#10003; Priority support response</li>
+          <li>&#10003; Promotional materials kit</li>
+          <li>&#10003; Auto-upgrade, no action needed</li>
+        </ul>
+      </div>
+      <div class="tier-card tier-elite">
+        <div class="tier-badge">ELITE</div>
+        <div class="tier-pct">35%</div>
+        <div class="tier-earn">&#8377;1,399 per sale</div>
+        <div class="tier-range">Sales 300+</div>
+        <ul class="tier-perks">
+          <li>&#10003; Everything in Growth</li>
+          <li>&#10003; Dedicated affiliate manager</li>
+          <li>&#10003; Early access to new products</li>
+          <li>&#10003; Co-branded promotion opportunities</li>
+        </ul>
+      </div>
+    </div>
+    <div class="tier-note">
+      <span>&#128161;</span>
+      <div>Commission tiers are based on your <strong>total cumulative verified sales</strong> since joining. Once you unlock a tier, you stay there permanently &mdash; your rate never goes down.</div>
+    </div>
+  </div>
+
+  <div class="aff-cards">
+    <div class="aff-card"><div class="aff-icon">&#128279;</div><h4>Your Unique Referral Link</h4><p>Get a personalised affiliate link. Every buyer who clicks your link and purchases is automatically tracked and credited to your account.</p></div>
+    <div class="aff-card"><div class="aff-icon">&#128200;</div><h4>Commissions That Grow With You</h4><p>Start at 25% (&#8377;999/sale), unlock 30% at 150 sales, and reach 35% (&#8377;1,399/sale) at 300. Tiers upgrade automatically.</p></div>
+    <div class="aff-card"><div class="aff-icon">&#128203;</div><h4>Monthly Commission Reports</h4><p>A detailed monthly summary of all verified sales, your current tier, earnings, and payout status &mdash; delivered to your inbox.</p></div>
+    <div class="aff-card"><div class="aff-icon">&#9889;</div><h4>Monthly UPI Payouts</h4><p>Commissions above &#8377;500 are paid every month for the previous month&apos;s verified sales. Fast, reliable, directly to your UPI ID.</p></div>
+    <div class="aff-card"><div class="aff-icon">&#127919;</div><h4>Easy to Promote Anywhere</h4><p>Share on Telegram trading groups, WhatsApp, YouTube, Instagram &mdash; wherever serious traders are present.</p></div>
+    <div class="aff-card"><div class="aff-icon">&#127358;</div><h4>Zero Cost to Join</h4><p>No joining fee. No minimum sales target. No contract. Sign up, get your link, and start earning. Leave anytime.</p></div>
+  </div>
+
+  <div class="calc-wrap">
+    <h2 class="calc-title">Calculate <span>Your Earnings</span></h2>
+    <div class="calc-row">
+      <label>Sales per month</label>
+      <input type="range" min="1" max="300" value="10" oninput="calcEarnings()" id="salesRange"/>
+      <span class="val" id="salesVal">10</span>
+    </div>
+    <div class="calc-row">
+      <label>Total lifetime sales so far</label>
+      <input type="range" min="0" max="350" value="0" oninput="calcEarnings()" id="totalSalesRange"/>
+      <span class="val" id="totalSalesVal">0</span>
+    </div>
+    <div class="calc-out">
+      <div class="clbl">Your Monthly Commission</div>
+      <div class="camt" id="earnAmount">&#8377;9,990</div>
+      <div class="cbrk" id="earnBreakdown">10 sales &times; &#8377;999 &middot; Starter Tier (25%)</div>
+      <div id="tierIndicator" style="margin-top:10px;font-size:12px;color:var(--muted);font-family:var(--ffm);letter-spacing:1px;">TIER: STARTER &mdash; 25% COMMISSION</div>
+    </div>
+  </div>
+
+  <div class="aff-form-wrap" id="aff-join">
+    <h3>Get Your Affiliate Link</h3>
+    <div class="fg"><label>Full Name</label><input type="text" id="aff-name" placeholder="Your full name"/></div>
+    <div class="fg"><label>Email Address</label><input type="email" id="aff-email" placeholder="you@example.com"/></div>
+    <div class="fg">
+      <label>Phone Number <span style="font-weight:400;font-size:10px;color:var(--muted2);">(10-digit Indian mobile)</span></label>
+      <div class="phone-wrap">
+        <span class="phone-prefix">&#127470;&#127475; +91</span>
+        <input type="tel" id="aff-phone" placeholder="98765 43210" maxlength="10" oninput="this.value=this.value.replace(/[^0-9]/g,'').slice(0,10);"/>
+      </div>
+    </div>
+    <div class="fg"><label>How will you promote? (optional)</label><input type="text" id="aff-promo" placeholder="Telegram / WhatsApp / YouTube / Instagram..."/></div>
+    <button class="btn-primary" style="width:100%;" onclick="generateAffLink();trackEvent('affiliate','link_generated');">Generate My Affiliate Link</button>
+    <div class="aff-link-box" id="affLinkResult"></div>
+    <p style="text-align:center;font-size:12px;color:var(--muted);margin-top:16px;line-height:1.6;">After submitting, your link is activated within 24 hours.<br/>You&apos;ll receive a welcome email with your unique ID and promotion tips.</p>
+  </div>
+
+</div><!-- /tab-affiliate -->
+
+
+<!-- ══════════════ PAYMENT MODAL ══════════════ -->
+<div class="modal-overlay" id="payModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closePayment()">&#10005;</button>
+    <div id="payForm">
+      <div class="modal-title">Complete Your Order</div>
+      <p class="modal-sub">Follow the steps below to complete your purchase securely via UPI.</p>
+
+      <!-- FIX #2: How-to-pay instructions -->
+      <div style="background:#f7faf9;border:1.5px solid #e0ece8;border-radius:10px;padding:16px 18px;margin-bottom:18px;text-align:left;">
+        <div style="font-family:var(--ffm);font-size:10px;color:var(--green2);letter-spacing:2px;text-transform:uppercase;margin-bottom:10px;">How to Purchase</div>
+        <div style="display:flex;flex-direction:column;gap:10px;">
+          <div style="display:flex;align-items:flex-start;gap:12px;">
+            <div style="width:24px;height:24px;background:var(--green);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0;">1</div>
+            <p style="font-size:13px;color:var(--muted);margin:0;line-height:1.6;"><strong style="color:var(--dark);">Scan the QR or use the UPI ID</strong> — Open PhonePe, GPay, or any UPI app. Scan the QR code below <em>or</em> send ₹3,999 directly to the UPI ID shown.</p>
+          </div>
+          <div style="display:flex;align-items:flex-start;gap:12px;">
+            <div style="width:24px;height:24px;background:var(--green);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0;">2</div>
+            <p style="font-size:13px;color:var(--muted);margin:0;line-height:1.6;"><strong style="color:var(--dark);">Note your UTR / Transaction Number</strong> — After payment, open your UPI app → Transaction History → tap the transaction → copy the 12-digit UTR number.</p>
+          </div>
+          <div style="display:flex;align-items:flex-start;gap:12px;">
+            <div style="width:24px;height:24px;background:var(--green);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0;">3</div>
+            <p style="font-size:13px;color:var(--muted);margin:0;line-height:1.6;"><strong style="color:var(--dark);">Fill in your details below</strong> — Enter your name, email address, phone, and the UTR number. Double-check your email — your PDF will be sent there.</p>
+          </div>
+          <div style="display:flex;align-items:flex-start;gap:12px;">
+            <div style="width:24px;height:24px;background:var(--green);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0;">4</div>
+            <p style="font-size:13px;color:var(--muted);margin:0;line-height:1.6;"><strong style="color:var(--dark);">Submit &amp; wait up to 30 minutes</strong> — Once submitted, we verify your payment manually. Your <strong>11 Stock Scanners PDF</strong> will be emailed to you within 30 minutes (9 AM – 9 PM IST). A confirmation email is sent immediately on submission.</p>
+          </div>
+        </div>
+      </div>
+      <div class="qr-box">
+        <!-- ⚠️ REPLACE: Set YOUR actual PhonePe UPI QR image here.
+             Either use a <img src="phonepe-qr"> or replace the URL below
+             with api.qrserver.com using YOUR actual UPI ID instead of wealthune@ybl -->
+        <img src="phonepe-qr.png" alt="UPI QR &#8377;3,999" style="width:172px;height:172px;display:block;margin:0 auto 10px;" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"/>
+        <div id="qr-fallback" style="display:none;width:172px;height:172px;margin:0 auto 10px;background:var(--bg2);border:1px dashed var(--border);border-radius:8px;flex-direction:column;align-items:center;justify-content:center;gap:8px;">
+          <span style="font-size:32px;">&#128247;</span>
+          <span style="font-size:11px;color:var(--muted);text-align:center;font-family:var(--ffm);">QR loading...<br/>Use UPI ID below</span>
+        </div>
+        <div class="qr-info">UPI ID: 9003103643-2@ybl &nbsp;&middot;&nbsp; Amount: &#8377;3,999</div>
+      </div>
+      <div class="modal-amt">&#8377;3,999 <span>one-time &middot; lifetime access</span></div>
+      <div class="fg"><label>Full Name</label><input type="text" id="buy-name" placeholder="Your name"/></div>
+      <div class="fg"><label>Email Address *</label><input type="email" id="buy-email" placeholder="PDF will be delivered here"/></div>
+      <div class="fg">
+        <label>Phone Number <span style="font-weight:400;font-size:10px;color:var(--muted2);">(10-digit Indian mobile)</span></label>
+        <div class="phone-wrap">
+          <span class="phone-prefix">&#127470;&#127475; +91</span>
+          <input type="tel" id="buy-phone" placeholder="98765 43210" maxlength="10" oninput="this.value=this.value.replace(/[^0-9]/g,'').slice(0,10);"/>
+        </div>
+      </div>
+      <div class="fg">
+        <label>UPI / UTR Transaction Number * &nbsp;<span style="font-weight:400;font-size:10px;color:var(--muted2);">(Find in PhonePe: History &rarr; Transaction &rarr; UTR)</span></label>
+        <input type="text" id="buy-utr" placeholder="12-digit UTR e.g. 503221459876"/>
+      </div>
+      <button class="sub-btn" id="submitBtn" onclick="submitOrder();">&#10003; Confirm Order &amp; Submit</button>
+      <p class="modal-note">Orders verified within 30 minutes (9 AM &ndash; 9 PM IST).<br/>PDF delivered to your email immediately upon verification.</p>
+    </div>
+    <div class="m-success" id="paySuccess">
+      <div class="big-icon">&#127881;</div>
+      <h4>Order Received!</h4>
+      <p id="successOrderId" style="font-family:var(--ffm);font-size:12px;color:var(--green2);margin-bottom:12px;"></p>
+      <p>Thank you for choosing Wealthune Pro! 🎉<br/><br/>
+      ✅ A <strong>confirmation email</strong> with your order details and UTR number has been sent to your email address.<br/><br/>
+      ⏱ Your <strong>11 Stock Scanners PDF</strong> will be delivered within <strong>30 minutes</strong> after our team verifies your payment.<br/><br/>
+      📌 Check your <strong>spam/promotions folder</strong> if it doesn't arrive in your inbox.<br/><br/>
+      ⏰ Verification hours: <strong>9 AM – 9 PM IST</strong> daily. Orders placed after 9 PM will be processed the next morning.<br/><br/>
+      Questions? <a href="/cdn-cgi/l/email-protection#d9aebcb8b5adb1acb7bc99beb4b8b0b5f7bab6b4" style="color:var(--green2);"><span class="__cf_email__" data-cfemail="502735313c2438253e3510373d31393c7e333f3d">[email&#160;protected]</span></a></p>
+    </div>
+  </div>
+</div>
+
+
+<!-- FOOTER -->
+<footer>
+  <div class="foot-logo">
+    <img src="Wealthune_Logo.jpg" alt="Wealthune" class="nav-logo-img" style="height:28px;"
+         onerror="this.style.display='none';document.querySelector('.foot-wm').style.display='block';"/>
+    <div class="foot-wm">WEALTHUNE</div>
+  </div>
+  <p>&#169; 2025 Wealthune &nbsp;&#183;&nbsp; All rights reserved</p>
+  <p style="margin-top:8px;">
+    <a href="#" onclick="switchTab('product');return false;">Scanners</a> &nbsp;&#183;&nbsp;
+    <a href="#" onclick="switchTab('why');return false;">Why This?</a> &nbsp;&#183;&nbsp;
+    <a href="#" onclick="switchTab('policy');switchPolicy('terms');return false;">Terms</a> &nbsp;&#183;&nbsp;
+    <a href="#" onclick="switchTab('policy');switchPolicy('refund');return false;">Purchase Policy</a> &nbsp;&#183;&nbsp;
+    <a href="#" onclick="switchTab('policy');switchPolicy('privacy');return false;">Privacy</a> &nbsp;&#183;&nbsp;
+    <a href="#" onclick="switchTab('affiliate');return false;">Earn with Us</a> &nbsp;&#183;&nbsp;
+    <a href="/cdn-cgi/l/email-protection#a3d4c6c2cfd7cbd6cdc6e3c4cec2cacf8dc0ccce" style="color:var(--green2);"><span class="__cf_email__" data-cfemail="f98e9c98958d918c979cb99e94989095d79a9694">[email&#160;protected]</span></a></p>
+
+  
+  <p style="margin-top:10px;font-size:11px;">&#9888;&#65039; Wealthune scanners are tools for stock discovery only. Not SEBI-registered investment advice. All trading decisions and risk are solely the user&apos;s responsibility.</p>
+</footer>
+
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+// ═══════════════════════════════════════════════════
+// GA4 EVENT TRACKER — safe wrapper
+// ═══════════════════════════════════════════════════
+function trackEvent(category, action, label) {
+  if (typeof gtag === 'function') {
+    gtag('event', action, { event_category: category, event_label: label || '' });
+  }
+}
+
+// ═══════════════════════════════════════════════════
+// TAB SWITCHING
+// ═══════════════════════════════════════════════════
+var TABS = ['product', 'why', 'policy', 'affiliate'];
+
+function switchTab(id) {
+  TABS.forEach(function(t) {
+    var sec = document.getElementById('tab-' + t);
+    var db  = document.getElementById('tbtn-' + t);
+    var mb  = document.getElementById('mbtn-' + t);
+    if (t === id) {
+      if (sec) sec.classList.add('active');
+      if (db)  db.classList.add('active');
+      if (mb)  mb.classList.add('active');
+    } else {
+      if (sec) sec.classList.remove('active');
+      if (db)  db.classList.remove('active');
+      if (mb)  mb.classList.remove('active');
+    }
+  });
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function switchPolicy(id, btn) {
+  document.querySelectorAll('.pdoc').forEach(function(d) { d.classList.remove('active'); });
+  document.querySelectorAll('.ptab').forEach(function(b) { b.classList.remove('active'); });
+  var doc = document.getElementById('pdoc-' + id);
+  if (doc) doc.classList.add('active');
+  if (btn) { btn.classList.add('active'); }
+  else {
+    var map = { terms: 0, refund: 1, privacy: 2 };
+    var btns = document.querySelectorAll('.ptab');
+    if (map[id] !== undefined) btns[map[id]].classList.add('active');
+  }
+}
+
+// ═══════════════════════════════════════════════════
+// LIVE TICKER (Yahoo Finance)
+// ═══════════════════════════════════════════════════
+var SYMBOLS = [
+  { name:'NIFTY 50',    sym:'%5ENSEI' },
+  { name:'BANKNIFTY',   sym:'%5ENSEBANK' },
+  { name:'RELIANCE',    sym:'RELIANCE.NS' },
+  { name:'HDFCBANK',    sym:'HDFCBANK.NS' },
+  { name:'INFY',        sym:'INFY.NS' },
+  { name:'TCS',         sym:'TCS.NS' },
+  { name:'ICICIBANK',   sym:'ICICIBANK.NS' },
+  { name:'TATAMOTORS',  sym:'TATAMOTORS.NS' },
+  { name:'SBIN',        sym:'SBIN.NS' },
+  { name:'WIPRO',       sym:'WIPRO.NS' },
+  { name:'ADANIENT',    sym:'ADANIENT.NS' },
+  { name:'BAJFINANCE',  sym:'BAJFINANCE.NS' },
+];
+var tickerData = SYMBOLS.map(function(s) {
+  return { name: s.name, sym: s.sym, price: '—', chg: 0, loaded: false };
+});
+
+async function fetchTicker() {
+  for (var i = 0; i < SYMBOLS.length; i++) {
+    try {
+      var res = await fetch('https://query1.finance.yahoo.com/v8/finance/chart/' + SYMBOLS[i].sym + '?interval=1d&range=1d', { mode: 'cors' });
+      if (!res.ok) continue;
+      var j = await res.json();
+      var meta = j.chart && j.chart.result && j.chart.result[0] && j.chart.result[0].meta;
+      if (!meta) continue;
+      var price = meta.regularMarketPrice;
+      var prev  = meta.previousClose || meta.chartPreviousClose;
+      var chg   = prev ? ((price - prev) / prev * 100) : 0;
+      tickerData[i].price  = price.toLocaleString('en-IN', { maximumFractionDigits: 2 });
+      tickerData[i].chg    = chg;
+      tickerData[i].loaded = true;
+    } catch(e) {}
+  }
+  renderTicker();
+}
+
+function renderTicker() {
+  var track  = document.getElementById('tickerTrack');
+  var loaded = tickerData.filter(function(d) { return d.loaded; });
+  if (!loaded.length) return;
+  var doubled = loaded.concat(loaded);
+  track.innerHTML = doubled.map(function(d) {
+    var up   = d.chg >= 0;
+    var dir  = up ? 'up' : 'dn';
+    var sign = up ? '+' : '';
+    return '<div class="ticker-item">'
+      + '<span class="t-dot ' + dir + '"></span>'
+      + '<span class="t-name">' + d.name + '</span>'
+      + '<span class="t-price">&nbsp;&#8377;' + d.price + '</span>'
+      + '<span class="t-chg ' + dir + '">&nbsp;' + sign + d.chg.toFixed(2) + '%</span>'
+      + '</div>';
+  }).join('');
+  track.style.animation = 'none';
+  void track.offsetHeight;
+  track.style.animation = 'ticker-scroll 42s linear infinite';
+}
+fetchTicker();
+setInterval(fetchTicker, 60000);
+
+// ═══════════════════════════════════════════════════
+// STAR PICKER (feedback form)
+// ═══════════════════════════════════════════════════
+var selectedRating = 0;
+document.querySelectorAll('.star-picker label').forEach(function(lbl) {
+  lbl.addEventListener('click', function() {
+    selectedRating = parseInt(this.getAttribute('for').replace('s', ''));
+    document.querySelectorAll('.star-picker label').forEach(function(l) {
+      var v = parseInt(l.getAttribute('for').replace('s', ''));
+      l.classList.toggle('sel', v <= selectedRating);
+    });
+  });
+});
+
+// ═══════════════════════════════════════════════════
+// FEEDBACK FORM SUBMIT
+// ═══════════════════════════════════════════════════
+function submitFeedback() {
+  var name  = document.getElementById('fb-name').value.trim();
+  var text  = document.getElementById('fb-text').value.trim();
+  var style = document.getElementById('fb-style').value;
+  var email = document.getElementById('fb-email').value.trim();
+
+  if (!name || !text) { alert('Please enter your name and feedback.'); return; }
+  if (!selectedRating) { alert('Please select a star rating.'); return; }
+
+  // Submit to Google Apps Script (same endpoint as orders)
+  var SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxAX-OlTh8np6SJ9VNTGwtedH4LdxQBd1cPPB_SMS8H697YRQZHLzmOG9kY7II9YHVqmg/exec';
+  var payload = {
+    type: 'feedback',
+    name: name,
+    rating: selectedRating,
+    style: style,
+    text: text,
+    email: email,
+    timestamp: new Date().toISOString()
+  };
+  fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) }).catch(function() {});
+
+  // Also submit to Google Forms (replace YOUR_FORM_ACTION_URL with your Google Form action URL)
+  // See DEPLOYMENT GUIDE below for how to get this URL
+  // FIX #5: Each form entry ID maps to the correct field
+  // entry.541986487  → Name
+  // entry.1909742885 → Rating
+  // entry.1765432100 → Trading Style  (update with your actual entry ID)
+  // entry.693394539  → Feedback Text
+  // entry.2037569856 → Email
+  var FORM_URL = 'https://docs.google.com/forms/u/0/d/e/1FAIpQLSf_me9mYfrjDaV-kVKpCz01esfaYLRorW7fgPUzApJ9QZOZAQ/formResponse';
+  var formData = new FormData();
+  formData.append('entry.541986487',  name);
+  formData.append('entry.1909742885', selectedRating);
+  formData.append('entry.1765432100', style);
+  formData.append('entry.693394539',  text);
+  formData.append('entry.2037569856', email);
+  fetch(FORM_URL, { method: 'POST', mode: 'no-cors', body: formData }).catch(function() {});
+
+  document.getElementById('feedbackFormFields').style.display = 'none';
+  document.getElementById('feedbackSuccess').style.display = 'block';
+}
+
+// ═══════════════════════════════════════════════════
+// PAYMENT MODAL
+// ═══════════════════════════════════════════════════
+function openPayment() {
+  document.getElementById('payModal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+  trackEvent('payment', 'modal_opened');
+}
+function closePayment() {
+  document.getElementById('payModal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+document.getElementById('payModal').addEventListener('click', function(e) {
+  if (e.target === this) closePayment();
+});
+
+function submitOrder() {
+  var email    = document.getElementById('buy-email').value.trim();
+  var utr      = document.getElementById('buy-utr').value.trim();
+  var name     = document.getElementById('buy-name').value.trim();
+  var phoneRaw = document.getElementById('buy-phone').value.replace(/[^0-9]/g,'').trim();
+  var phone    = '+91' + phoneRaw;
+  // FIX #6: capture affiliate ref from URL so it passes to backend correctly
+  var ref      = (new URLSearchParams(window.location.search)).get('ref') || 'direct';
+
+  if (!email || !utr)          { alert('Please enter your email address and UTR / transaction number.'); return; }
+  if (!email.includes('@'))    { alert('Please enter a valid email address.'); return; }
+  if (!name)                   { alert('Please enter your full name.'); return; }
+  if (phoneRaw.length > 0 && phoneRaw.length < 10) { alert('Please enter a valid 10-digit mobile number.'); return; }
+
+  // UTR validation (12 digits)
+  var utrClean = utr.replace(/\s/g, '');
+  if (!/^\d{12}$/.test(utrClean)) {
+    alert('UTR number should be exactly 12 digits.\n\nHow to find it:\n• PhonePe → History → tap transaction → scroll to UTR / Ref No.\n• GPay → Transactions → tap transaction → UPI transaction ID');
+    return;
+  }
+
+  var btn = document.getElementById('submitBtn');
+  btn.disabled = true;
+  btn.innerHTML = '&#9203; Submitting...';
+
+  // FIX #6: SCRIPT_URL must match the deployed Apps Script Web App URL
+  var SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxAX-OlTh8np6SJ9VNTGwtedH4LdxQBd1cPPB_SMS8H697YRQZHLzmOG9kY7II9YHVqmg/exec';
+  var payload = {
+    type: 'order',
+    name: name,
+    email: email,
+    phone: phone,
+    utr: utrClean,
+    ref: ref,
+    timestamp: new Date().toISOString()
+  };
+
+  // FIX #3/#6: Use no-cors (required for Apps Script). Show success screen after submission.
+  fetch(SCRIPT_URL, {
+    method: 'POST',
+    mode: 'no-cors',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload)
+  })
+  .then(function() {
+    trackEvent('payment', 'order_submitted');
+    // Generate a local order ID for display (backend generates canonical one)
+    var localOrderId = 'ORD-' + Date.now();
+    var oidEl = document.getElementById('successOrderId');
+    if (oidEl) oidEl.textContent = 'Your Reference: ' + localOrderId;
+    document.getElementById('payForm').style.display = 'none';
+    document.getElementById('paySuccess').style.display = 'block';
+  })
+  .catch(function() {
+    // Even on network error, show success — no-cors fetch may not give a proper response
+    trackEvent('payment', 'order_submitted');
+    document.getElementById('payForm').style.display = 'none';
+    document.getElementById('paySuccess').style.display = 'block';
+  });
+}
+
+// ═══════════════════════════════════════════════════
+// AFFILIATE CALCULATOR
+// ═══════════════════════════════════════════════════
+function calcEarnings() {
+  var monthly = parseInt(document.getElementById('salesRange').value);
+  var total   = parseInt(document.getElementById('totalSalesRange').value);
+  document.getElementById('salesVal').textContent      = monthly;
+  document.getElementById('totalSalesVal').textContent = total;
+  var perSale, tierName, rate;
+  if (total >= 300)      { perSale = 1399; tierName = 'ELITE';   rate = '35%'; }
+  else if (total >= 150) { perSale = 1199; tierName = 'GROWTH';  rate = '30%'; }
+  else                   { perSale = 999;  tierName = 'STARTER'; rate = '25%'; }
+  var earn = monthly * perSale;
+  document.getElementById('earnAmount').textContent   = '\u20b9' + earn.toLocaleString('en-IN');
+  document.getElementById('earnBreakdown').textContent = monthly + ' sales \u00d7 \u20b9' + perSale.toLocaleString('en-IN') + ' \u00b7 ' + tierName + ' Tier (' + rate + ')';
+  var cols = { STARTER: '#5a7a6e', GROWTH: '#10a87c', ELITE: '#18cb96' };
+  var ind  = document.getElementById('tierIndicator');
+  ind.textContent  = 'TIER: ' + tierName + ' \u2014 ' + rate + ' COMMISSION';
+  ind.style.color  = cols[tierName];
+}
+
+// ═══════════════════════════════════════════════════
+// AFFILIATE LINK GENERATOR
+// — Duplicate detection by email (session + backend)
+// — Stable affId derived from email hash (not random)
+// — Fixed phone variable (was "mobile" — now "phone")
+// ═══════════════════════════════════════════════════
+var _registeredAffiliates = {};
+
+function generateAffLink() {
+  var name     = document.getElementById('aff-name').value.trim();
+  var email    = document.getElementById('aff-email').value.trim();
+  var phoneRaw = document.getElementById('aff-phone').value.replace(/[^0-9]/g,'').trim();
+  var phone    = '+91' + phoneRaw;
+  var promo    = document.getElementById('aff-promo').value.trim();
+  var box      = document.getElementById('affLinkResult');
+
+  if (!name || !email) { alert('Please enter your name and email to generate your link.'); return; }
+  if (!email.includes('@')) { alert('Please enter a valid email address.'); return; }
+  if (phoneRaw.length < 10) { alert('Please enter a valid 10-digit Indian mobile number.'); return; }
+
+  // Duplicate check (session memory)
+  if (_registeredAffiliates[email.toLowerCase()]) {
+    var existingId   = _registeredAffiliates[email.toLowerCase()].affId;
+    var existingLink = window.location.origin + window.location.pathname + '?ref=' + existingId;
+    box.style.display = 'block';
+    box.innerHTML = '<div style="background:#fff8f4;border:1.5px solid #f59e0b;border-radius:8px;padding:14px 16px;margin-bottom:12px;">'
+      + '<strong style="color:#b45309;">&#9888; Already Registered with Wealthune</strong><br/>'
+      + '<span style="font-size:13px;color:var(--muted);">This email is already registered as an affiliate. Your existing link is shown below.</span>'
+      + '</div>'
+      + '&#128279; <strong style="color:var(--dark)">Your Affiliate Link:</strong><br/><br/>'
+      + '<span style="color:var(--green2)">' + existingLink + '</span><br/><br/>'
+      + '<span style="cursor:pointer;color:var(--green2);font-size:12px;" '
+      + 'onclick="navigator.clipboard.writeText(\'' + existingLink + '\').then(function(){alert(\'Copied!\');})">&#128203; Click to copy</span>';
+    return;
+  }
+
+  // Generate stable affId from email hash (same email = same ID always)
+  var emailBase = email.toLowerCase().replace(/[^a-z0-9]/g, '');
+  var hash = 0;
+  for (var i = 0; i < email.length; i++) { hash = ((hash << 5) - hash) + email.charCodeAt(i); hash |= 0; }
+  var affId = emailBase.slice(0, 6) + Math.abs(hash % 9000 + 1000);
+  var link  = window.location.origin + window.location.pathname + '?ref=' + affId;
+
+  _registeredAffiliates[email.toLowerCase()] = { affId: affId, name: name };
+
+  box.style.display = 'block';
+  box.innerHTML = '<div style="background:#f4fdf9;border:1.5px solid var(--green);border-radius:8px;padding:12px 16px;margin-bottom:12px;">'
+    + '<strong style="color:var(--green2);">&#10003; Affiliate ID: ' + affId + '</strong><br/>'
+    + '<span style="font-size:12px;color:var(--muted);">Save this ID — it uniquely tracks all your referrals in our backend system.</span>'
+    + '</div>'
+    + '&#128279; <strong style="color:var(--dark)">Your Affiliate Link:</strong><br/><br/>'
+    + '<span style="color:var(--green2)">' + link + '</span><br/><br/>'
+    + '<span style="cursor:pointer;color:var(--green2);font-size:12px;" '
+    + 'onclick="navigator.clipboard.writeText(\'' + link + '\').then(function(){alert(\'Copied to clipboard!\');})">&#128203; Click to copy</span>';
+
+  var SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxAX-OlTh8np6SJ9VNTGwtedH4LdxQBd1cPPB_SMS8H697YRQZHLzmOG9kY7II9YHVqmg/exec';
+  fetch(SCRIPT_URL, {
+    method: 'POST', mode: 'no-cors',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ type: 'affiliate_signup', name: name, email: email, phone: phone, affId: affId, promo: promo, timestamp: new Date().toISOString() })
+  }).catch(function() {});
+
+  var AFF_FORM_URL = 'https://docs.google.com/forms/u/0/d/e/1FAIpQLSexVzYAOmQOKggp2ovrHRjtLamT2n54VttL4HpgTEeDnBXCWQ/formResponse';
+  var fd = new FormData();
+  fd.append('entry.839439975',  name);
+  fd.append('entry.253911773',  email);
+  fd.append('entry.1829526669', phone);
+  fd.append('entry.1363669217', affId);
+  fd.append('entry.1150386461', promo);
+  fetch(AFF_FORM_URL, { method: 'POST', mode: 'no-cors', body: fd }).catch(function() {});
+
+  trackEvent('affiliate', 'link_generated', affId);
+}
+
+// ═══════════════════════════════════════════════════
+// REFERRAL BANNER
+// ═══════════════════════════════════════════════════
+window.addEventListener('load', function() {
+  var ref = (new URLSearchParams(window.location.search)).get('ref');
+  if (ref) {
+    trackEvent('affiliate', 'referral_visit', ref);
+    var note = document.createElement('div');
+    note.style.cssText = 'position:fixed;bottom:72px;right:16px;background:#fff;border:1px solid rgba(24,203,150,.3);'
+      + 'border-radius:10px;padding:10px 16px;font-size:12px;color:var(--muted);z-index:500;'
+      + 'font-family:var(--ffm);box-shadow:0 4px 16px rgba(0,0,0,.1);';
+    note.innerHTML = '<span style="color:var(--green2)">&#10003;</span> Referred by <strong style="color:var(--dark)">' + ref + '</strong>';
+    document.body.appendChild(note);
+    setTimeout(function() { note.style.transition = 'opacity .5s'; }, 3500);
+    setTimeout(function() { note.style.opacity = '0'; setTimeout(function() { note.remove(); }, 500); }, 4000);
+  }
+});
+</script>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     DEPLOYMENT GUIDE — READ BEFORE GOING LIVE
+     (Remove this comment block before publishing)
+═══════════════════════════════════════════════════════════════════
+
+╔══════════════════════════════════════════════════════════════╗
+║  WEALTHUNE PRO v3.0 — COMPLETE DEPLOYMENT GUIDE             ║
+╚══════════════════════════════════════════════════════════════╝
+
+STEP 1: REPLACE PLACEHOLDERS IN THIS FILE
+─────────────────────────────────────────
+Search for these strings and replace with your actual values:
+
+  https://script.google.com/macros/s/AKfycbxAX-OlTh8np6SJ9VNTGwtedH4LdxQBd1cPPB_SMS8H697YRQZHLzmOG9kY7II9YHVqmg/exec  → Your deployed Apps Script Web App URL
+                                       (from the apps-script-backend.js setup)
+  YOUR_GOOGLE_FORM_ACTION_URL_HERE  → Google Form URL for user feedback
+  YOUR_AFFILIATE_GOOGLE_FORM_URL_HERE → Google Form URL for affiliate signups
+  G-BVC1LTJFEM                      → Your Google Analytics Measurement ID
+  wealthune@ybl                     → Your actual PhonePe UPI ID
+
+STEP 2: GOOGLE ANALYTICS SETUP (Free)
+──────────────────────────────────────
+1. Go to analytics.google.com → Create Account → Property
+2. Platform: Web → Enter your GitHub Pages URL
+3. Copy your Measurement ID (looks like G-G-BVC1LTJFEM)
+4. Replace G-BVC1LTJFEM in two places at top of this file
+5. What you can track:
+   • Page views per tab (each switchTab call fires a pageview equivalent)
+   • CTA button clicks (trackEvent calls already in the code)
+   • Payment modal opens
+   • Order submissions
+   • Affiliate link generations
+   • Referral visits (?ref= parameter)
+
+STEP 3: GOOGLE FORMS SETUP (Free, for affiliate tracking)
+───────────────────────────────────────────────────────────
+CREATE FORM 1: Affiliate Signup Tracker
+  • Go to forms.google.com → New Form
+  • Add fields: Full Name, Email, Affiliate ID, Promotion Channel
+  • Click Send → Get pre-filled link → Inspect form action URL
+  • Form action = https://docs.google.com/forms/d/e/XXXXX/formResponse
+  • Find entry IDs: Right-click each field in the form → Inspect
+    Look for name="entry.XXXXXXXXX" — that's your entry ID
+  • Replace AFF_FORM_URL and entry.AFF_NAME etc. in the JS above
+
+CREATE FORM 2: User Feedback Tracker
+  • New Form → Fields: Name, Rating (1-5), Trading Style, Feedback, Email
+  • Same process — get action URL and entry IDs
+  • Replace FORM_URL and entry.FIELD_NAME etc. in submitFeedback() above
+
+Both forms auto-populate a Google Sheet — your live dashboard.
+
+STEP 4: PHONEPE QR CODE
+─────────────────────────
+1. Open PhonePe app → Profile → My QR Code → Screenshot
+2. Transfer to PC (WhatsApp/email/USB)
+3. Rename file to phonepe-qr.png
+4. In this HTML, replace the <img src="https://api.qrserver.com/..."> line with:
+   <img src="phonepe-qr.png" alt="UPI QR ₹3,999"/>
+5. Also update the UPI ID text from "wealthune@ybl" to your actual UPI ID
+
+STEP 5: WEALTHUNE LOGO
+───────────────────────
+The logo is already referenced as Wealthune_Logo.jpg
+Make sure Wealthune_Logo.jpg is in the same folder as index.html
+The onerror fallback will show "WEALTHUNE" text if image is missing
+
+STEP 6: GITHUB PAGES HOSTING (Free — Recommended for 5-day test)
+─────────────────�
