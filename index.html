@@ -362,6 +362,12 @@ h2.st span{color:var(--green);}
 .m-success .big-icon{font-size:60px;margin-bottom:16px;}
 .m-success h4{font-family:var(--ffd);font-size:32px;font-weight:400;letter-spacing:2px;text-transform:uppercase;color:var(--green2);margin-bottom:10px;}
 .m-success p{color:var(--muted);font-size:14px;line-height:1.7;}
+/* ── PHONE INPUT WITH PREFIX ── */
+.phone-wrap{display:flex;gap:0;border:1.5px solid var(--border);border-radius:8px;overflow:hidden;transition:border-color .2s;}
+.phone-wrap:focus-within{border-color:var(--green);}
+.phone-prefix{background:var(--bg2);border-right:1px solid var(--border);padding:11px 12px;font-family:var(--ffm);font-size:13px;color:var(--dark);white-space:nowrap;display:flex;align-items:center;gap:6px;flex-shrink:0;}
+.phone-wrap input{flex:1;border:none;outline:none;background:#fff;padding:11px 14px;color:var(--dark);font-family:var(--ffb);font-size:14px;}
+.phone-wrap input::placeholder{color:var(--muted2);}
 
 /* ── FOOTER ── */
 footer{border-top:1px solid var(--border);padding:40px 28px;text-align:center;background:var(--bg2);}
@@ -1032,7 +1038,13 @@ footer a:hover{color:var(--green2);}
     <h3>Get Your Affiliate Link</h3>
     <div class="fg"><label>Full Name</label><input type="text" id="aff-name" placeholder="Your full name"/></div>
     <div class="fg"><label>Email Address</label><input type="email" id="aff-email" placeholder="you@example.com"/></div>
-    <div class="fg"><label>Phone Number</label><input type="tel" id="aff-phone" placeholder="+91 98765 43210"/></div>
+    <div class="fg">
+      <label>Phone Number <span style="font-weight:400;font-size:10px;color:var(--muted2);">(10-digit Indian mobile)</span></label>
+      <div class="phone-wrap">
+        <span class="phone-prefix">&#127470;&#127475; +91</span>
+        <input type="tel" id="aff-phone" placeholder="98765 43210" maxlength="10" oninput="this.value=this.value.replace(/[^0-9]/g,'').slice(0,10);"/>
+      </div>
+    </div>
     <div class="fg"><label>How will you promote? (optional)</label><input type="text" id="aff-promo" placeholder="Telegram / WhatsApp / YouTube / Instagram..."/></div>
     <button class="btn-primary" style="width:100%;" onclick="generateAffLink();trackEvent('affiliate','link_generated');">Generate My Affiliate Link</button>
     <div class="aff-link-box" id="affLinkResult"></div>
@@ -1053,13 +1065,23 @@ footer a:hover{color:var(--green2);}
         <!-- ⚠️ REPLACE: Set YOUR actual PhonePe UPI QR image here.
              Either use a <img src="phonepe-qr"> or replace the URL below
              with api.qrserver.com using YOUR actual UPI ID instead of wealthune@ybl -->
-        <img src="phonepe-qr" alt="UPI QR &#8377;3,999 />
-        <div class="qr-info">UPI ID: 9003103643-2@ybl &nbsp;&middot;&nbsp; Amount: &#8377;3,999
+        <img src="phonepe-qr.png" alt="UPI QR &#8377;3,999" style="width:172px;height:172px;display:block;margin:0 auto 10px;" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"/>
+        <div id="qr-fallback" style="display:none;width:172px;height:172px;margin:0 auto 10px;background:var(--bg2);border:1px dashed var(--border);border-radius:8px;flex-direction:column;align-items:center;justify-content:center;gap:8px;">
+          <span style="font-size:32px;">&#128247;</span>
+          <span style="font-size:11px;color:var(--muted);text-align:center;font-family:var(--ffm);">QR loading...<br/>Use UPI ID below</span>
+        </div>
+        <div class="qr-info">UPI ID: 9003103643-2@ybl &nbsp;&middot;&nbsp; Amount: &#8377;3,999</div>
       </div>
       <div class="modal-amt">&#8377;3,999 <span>one-time &middot; lifetime access</span></div>
       <div class="fg"><label>Full Name</label><input type="text" id="buy-name" placeholder="Your name"/></div>
       <div class="fg"><label>Email Address *</label><input type="email" id="buy-email" placeholder="PDF will be delivered here"/></div>
-      <div class="fg"><label>Phone Number</label><input type="tel" id="buy-phone" placeholder="+91 98765 43210"/></div>
+      <div class="fg">
+        <label>Phone Number <span style="font-weight:400;font-size:10px;color:var(--muted2);">(10-digit Indian mobile)</span></label>
+        <div class="phone-wrap">
+          <span class="phone-prefix">&#127470;&#127475; +91</span>
+          <input type="tel" id="buy-phone" placeholder="98765 43210" maxlength="10" oninput="this.value=this.value.replace(/[^0-9]/g,'').slice(0,10);"/>
+        </div>
+      </div>
       <div class="fg">
         <label>UPI / UTR Transaction Number * &nbsp;<span style="font-weight:400;font-size:10px;color:var(--muted2);">(Find in PhonePe: History &rarr; Transaction &rarr; UTR)</span></label>
         <input type="text" id="buy-utr" placeholder="12-digit UTR e.g. 503221459876"/>
@@ -1098,7 +1120,7 @@ footer a:hover{color:var(--green2);}
 </footer>
 
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script>
 // ═══════════════════════════════════════════════════
 // GA4 EVENT TRACKER — safe wrapper
 // ═══════════════════════════════════════════════════
@@ -1281,11 +1303,13 @@ function submitOrder() {
   var email = document.getElementById('buy-email').value.trim();
   var utr   = document.getElementById('buy-utr').value.trim();
   var name  = document.getElementById('buy-name').value.trim();
-  var phone = document.getElementById('buy-phone').value.trim();
+  var phoneRaw = document.getElementById('buy-phone').value.replace(/[^0-9]/g,'').trim();
+  var phone = '+91' + phoneRaw;
   var ref   = (new URLSearchParams(window.location.search)).get('ref') || '';
 
   if (!email || !utr) { alert('Please enter your email address and UTR / transaction number.'); return; }
   if (!email.includes('@')) { alert('Please enter a valid email address.'); return; }
+  if (phoneRaw.length > 0 && phoneRaw.length < 10) { alert('Please enter a valid 10-digit mobile number.'); return; }
 
   // Basic UTR validation (12 digits)
   var utrClean = utr.replace(/\s/g, '');
@@ -1329,25 +1353,59 @@ function calcEarnings() {
 
 // ═══════════════════════════════════════════════════
 // AFFILIATE LINK GENERATOR
+// — Duplicate detection by email (session + backend)
+// — Stable affId derived from email hash (not random)
+// — Fixed phone variable (was "mobile" — now "phone")
 // ═══════════════════════════════════════════════════
-function generateAffLink() {
-  var name  = document.getElementById('aff-name').value.trim();
-  var email = document.getElementById('aff-email').value.trim();
-  var phone = document.getElementById('aff-phone').value.trim();
-  var promo = document.getElementById('aff-promo').value.trim();
-  if (!name || !email) { alert('Please enter your name and email to generate your link.'); return; }
+var _registeredAffiliates = {};
 
-  var affId = name.toLowerCase().replace(/\s+/g, '').replace(/[^a-z0-9]/g, '') + Math.floor(Math.random() * 900 + 100);
+function generateAffLink() {
+  var name     = document.getElementById('aff-name').value.trim();
+  var email    = document.getElementById('aff-email').value.trim();
+  var phoneRaw = document.getElementById('aff-phone').value.replace(/[^0-9]/g,'').trim();
+  var phone    = '+91' + phoneRaw;
+  var promo    = document.getElementById('aff-promo').value.trim();
+  var box      = document.getElementById('affLinkResult');
+
+  if (!name || !email) { alert('Please enter your name and email to generate your link.'); return; }
+  if (!email.includes('@')) { alert('Please enter a valid email address.'); return; }
+  if (phoneRaw.length < 10) { alert('Please enter a valid 10-digit Indian mobile number.'); return; }
+
+  // Duplicate check (session memory)
+  if (_registeredAffiliates[email.toLowerCase()]) {
+    var existingId   = _registeredAffiliates[email.toLowerCase()].affId;
+    var existingLink = window.location.origin + window.location.pathname + '?ref=' + existingId;
+    box.style.display = 'block';
+    box.innerHTML = '<div style="background:#fff8f4;border:1.5px solid #f59e0b;border-radius:8px;padding:14px 16px;margin-bottom:12px;">'
+      + '<strong style="color:#b45309;">&#9888; Already Registered with Wealthune</strong><br/>'
+      + '<span style="font-size:13px;color:var(--muted);">This email is already registered as an affiliate. Your existing link is shown below.</span>'
+      + '</div>'
+      + '&#128279; <strong style="color:var(--dark)">Your Affiliate Link:</strong><br/><br/>'
+      + '<span style="color:var(--green2)">' + existingLink + '</span><br/><br/>'
+      + '<span style="cursor:pointer;color:var(--green2);font-size:12px;" '
+      + 'onclick="navigator.clipboard.writeText(\'' + existingLink + '\').then(function(){alert(\'Copied!\');})">&#128203; Click to copy</span>';
+    return;
+  }
+
+  // Generate stable affId from email hash (same email = same ID always)
+  var emailBase = email.toLowerCase().replace(/[^a-z0-9]/g, '');
+  var hash = 0;
+  for (var i = 0; i < email.length; i++) { hash = ((hash << 5) - hash) + email.charCodeAt(i); hash |= 0; }
+  var affId = emailBase.slice(0, 6) + Math.abs(hash % 9000 + 1000);
   var link  = window.location.origin + window.location.pathname + '?ref=' + affId;
 
-  var box = document.getElementById('affLinkResult');
+  _registeredAffiliates[email.toLowerCase()] = { affId: affId, name: name };
+
   box.style.display = 'block';
-  box.innerHTML = '&#128279; <strong style="color:var(--dark)">Your Affiliate Link:</strong><br/><br/>'
+  box.innerHTML = '<div style="background:#f4fdf9;border:1.5px solid var(--green);border-radius:8px;padding:12px 16px;margin-bottom:12px;">'
+    + '<strong style="color:var(--green2);">&#10003; Affiliate ID: ' + affId + '</strong><br/>'
+    + '<span style="font-size:12px;color:var(--muted);">Save this ID — it uniquely tracks all your referrals in our backend system.</span>'
+    + '</div>'
+    + '&#128279; <strong style="color:var(--dark)">Your Affiliate Link:</strong><br/><br/>'
     + '<span style="color:var(--green2)">' + link + '</span><br/><br/>'
     + '<span style="cursor:pointer;color:var(--green2);font-size:12px;" '
     + 'onclick="navigator.clipboard.writeText(\'' + link + '\').then(function(){alert(\'Copied to clipboard!\');})">&#128203; Click to copy</span>';
 
-  // Save affiliate to Google Apps Script
   var SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxAX-OlTh8np6SJ9VNTGwtedH4LdxQBd1cPPB_SMS8H697YRQZHLzmOG9kY7II9YHVqmg/exec';
   fetch(SCRIPT_URL, {
     method: 'POST', mode: 'no-cors',
@@ -1355,16 +1413,16 @@ function generateAffLink() {
     body: JSON.stringify({ type: 'affiliate_signup', name: name, email: email, phone: phone, affId: affId, promo: promo, timestamp: new Date().toISOString() })
   }).catch(function() {});
 
-  // Also submit to Google Forms (affiliate tracking)
-  // Replace with YOUR Google Form action URL for affiliate signups
   var AFF_FORM_URL = 'https://docs.google.com/forms/u/0/d/e/1FAIpQLSexVzYAOmQOKggp2ovrHRjtLamT2n54VttL4HpgTEeDnBXCWQ/formResponse';
   var fd = new FormData();
   fd.append('entry.839439975',  name);
-  fd.append('entry.253911773', email);
-  fd.append('entry.1829526669', mobile);
+  fd.append('entry.253911773',  email);
+  fd.append('entry.1829526669', phone);
   fd.append('entry.1363669217', affId);
   fd.append('entry.1150386461', promo);
   fetch(AFF_FORM_URL, { method: 'POST', mode: 'no-cors', body: fd }).catch(function() {});
+
+  trackEvent('affiliate', 'link_generated', affId);
 }
 
 // ═══════════════════════════════════════════════════
@@ -1475,23 +1533,4 @@ STEP 7: VERCEL HOSTING (Alternative — Better Performance)
 4. Framework Preset: Other → Deploy
 5. Live in 30 seconds with HTTPS at: https://wealthune-pro.vercel.app
 6. Add custom domain: Project Settings → Domains → Add domain
-7. Vercel is FASTER than GitHub Pages and has better CDN globally
-
-RECOMMENDATION: Use Vercel for production, GitHub Pages for testing.
-
-STEP 8: 5-DAY PRE-LAUNCH TEST PLAN
-────────────────────────────────────
-Day 1: Deploy to GitHub Pages (or Vercel). Test ALL tabs on desktop+mobile.
-       Test payment modal, UTR submission, Google Analytics events.
-Day 2: Send to 3-5 trusted traders. Get feedback on UX, clarity, trust.
-       Check Google Analytics → Real-Time → see their sessions live.
-Day 3: Make minor copy/UX tweaks based on feedback.
-       Test the full purchase flow end-to-end (pay yourself ₹1, verify).
-Day 4: Set up affiliate Google Form. Generate 2-3 test affiliate links.
-       Verify they appear in your Google Sheet.
-Day 5: Final check — all links work, QR works, email delivery works.
-       Remove this comment block. Launch!
-
-STEP 9: POST-LAUNCH MONITORING
-────────────────────────────────
-Google 
+7. Vercel is F
