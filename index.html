@@ -1328,7 +1328,7 @@ function submitFeedback() {
     email: email,
     timestamp: new Date().toISOString()
   };
-  fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(payload) }).catch(function() {});
+  var fbfd=new FormData();Object.keys(payload).forEach(function(k){fbfd.append(k,String(payload[k]));});fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: fbfd }).catch(function() {});
 
   // Also submit to Google Forms (replace YOUR_FORM_ACTION_URL with your Google Form action URL)
   // See DEPLOYMENT GUIDE below for how to get this URL
@@ -1373,18 +1373,16 @@ function submitOrder() {
   var name     = document.getElementById('buy-name').value.trim();
   var phoneRaw = document.getElementById('buy-phone').value.replace(/[^0-9]/g,'').trim();
   var phone    = '+91' + phoneRaw;
-  // FIX #6: capture affiliate ref from URL so it passes to backend correctly
-  var ref      = (new URLSearchParams(window.location.search)).get('ref') || 'N/A'; // N/A for direct sales (matches backend sheet)
+  var ref      = (new URLSearchParams(window.location.search)).get('ref') || 'N/A';
 
   if (!email || !utr)          { alert('Please enter your email address and UTR / transaction number.'); return; }
   if (!email.includes('@'))    { alert('Please enter a valid email address.'); return; }
   if (!name)                   { alert('Please enter your full name.'); return; }
   if (phoneRaw.length > 0 && phoneRaw.length < 10) { alert('Please enter a valid 10-digit mobile number.'); return; }
 
-  // UTR validation (12 digits)
   var utrClean = utr.replace(/\s/g, '');
   if (!/^\d{12}$/.test(utrClean)) {
-    alert('UTR number should be exactly 12 digits.\n\nHow to find it:\n• PhonePe → History → tap transaction → scroll to UTR / Ref No.\n• GPay → Transactions → tap transaction → UPI transaction ID');
+    alert('UTR number should be exactly 12 digits.\n\nHow to find it:\n• PhonePe: History → tap transaction → UTR / Ref No.\n• GPay: Transactions → tap transaction → UPI transaction ID');
     return;
   }
 
@@ -1392,32 +1390,27 @@ function submitOrder() {
   btn.disabled = true;
   btn.innerHTML = '&#9203; Submitting...';
 
-  // FIX #6: SCRIPT_URL must match the deployed Apps Script Web App URL
   var SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxAX-OlTh8np6SJ9VNTGwtedH4LdxQBd1cPPB_SMS8H697YRQZHLzmOG9kY7II9YHVqmg/exec';
-  var payload = {
-    type: 'order',
-    name: name,
-    email: email,
-    phone: phone,
-    utr: utrClean,
-    ref: ref,
-    timestamp: new Date().toISOString()
-  };
 
-  // FIX #3/#6: Use no-cors (required for Apps Script). Show success screen after submission.
-  // CRITICAL FIX: NO Content-Type header with mode:no-cors
-  // Browser strips non-simple headers in cross-origin requests, making body empty on server.
-  // Without headers = simple request = body arrives correctly at Apps Script.
-  fetch(SCRIPT_URL, {
-    method: 'POST',
-    mode: 'no-cors',
-    body: JSON.stringify(payload)
-  })
+  // USE FORMDATA — the ONLY reliable way to POST to Apps Script cross-origin.
+  // fetch() with mode:no-cors + JSON body sends body as text/plain which 
+  // Apps Script sometimes receives as empty depending on browser/network.
+  // FormData with mode:no-cors is a true "simple request" and ALWAYS arrives
+  // as e.parameter in Apps Script doPost.
+  var fd = new FormData();
+  fd.append('type',      'order');
+  fd.append('name',      name);
+  fd.append('email',     email);
+  fd.append('phone',     phone);
+  fd.append('utr',       utrClean);
+  fd.append('ref',       ref);
+  fd.append('timestamp', new Date().toISOString());
+
+  fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: fd })
   .then(function() {
     trackEvent('payment', 'order_submitted');
-    var localOrderId = 'ORD-' + Date.now();
     var oidEl = document.getElementById('successOrderId');
-    if (oidEl) oidEl.textContent = 'Your Reference: ' + localOrderId;
+    if (oidEl) oidEl.textContent = 'Reference: ORD-' + Date.now();
     document.getElementById('payForm').style.display = 'none';
     document.getElementById('paySuccess').style.display = 'block';
   })
