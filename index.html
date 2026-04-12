@@ -1182,7 +1182,7 @@ footer a:hover{color:var(--green2);}
 </footer>
 
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script>
 // ═══════════════════════════════════════════════════
 // GA4 EVENT TRACKER — safe wrapper
 // ═══════════════════════════════════════════════════
@@ -1328,7 +1328,7 @@ function submitFeedback() {
     email: email,
     timestamp: new Date().toISOString()
   };
-  fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) }).catch(function() {});
+  fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(payload) }).catch(function() {});
 
   // Also submit to Google Forms (replace YOUR_FORM_ACTION_URL with your Google Form action URL)
   // See DEPLOYMENT GUIDE below for how to get this URL
@@ -1374,7 +1374,7 @@ function submitOrder() {
   var phoneRaw = document.getElementById('buy-phone').value.replace(/[^0-9]/g,'').trim();
   var phone    = '+91' + phoneRaw;
   // FIX #6: capture affiliate ref from URL so it passes to backend correctly
-  var ref      = (new URLSearchParams(window.location.search)).get('ref') || 'direct';
+  var ref      = (new URLSearchParams(window.location.search)).get('ref') || 'N/A'; // N/A for direct sales (matches backend sheet)
 
   if (!email || !utr)          { alert('Please enter your email address and UTR / transaction number.'); return; }
   if (!email.includes('@'))    { alert('Please enter a valid email address.'); return; }
@@ -1405,15 +1405,16 @@ function submitOrder() {
   };
 
   // FIX #3/#6: Use no-cors (required for Apps Script). Show success screen after submission.
+  // CRITICAL FIX: NO Content-Type header with mode:no-cors
+  // Browser strips non-simple headers in cross-origin requests, making body empty on server.
+  // Without headers = simple request = body arrives correctly at Apps Script.
   fetch(SCRIPT_URL, {
     method: 'POST',
     mode: 'no-cors',
-    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(payload)
   })
   .then(function() {
     trackEvent('payment', 'order_submitted');
-    // Generate a local order ID for display (backend generates canonical one)
     var localOrderId = 'ORD-' + Date.now();
     var oidEl = document.getElementById('successOrderId');
     if (oidEl) oidEl.textContent = 'Your Reference: ' + localOrderId;
@@ -1421,7 +1422,6 @@ function submitOrder() {
     document.getElementById('paySuccess').style.display = 'block';
   })
   .catch(function() {
-    // Even on network error, show success — no-cors fetch may not give a proper response
     trackEvent('payment', 'order_submitted');
     document.getElementById('payForm').style.display = 'none';
     document.getElementById('paySuccess').style.display = 'block';
@@ -1504,10 +1504,10 @@ function generateAffLink() {
     + '<span style="cursor:pointer;color:var(--green2);font-size:12px;" '
     + 'onclick="navigator.clipboard.writeText(\'' + link + '\').then(function(){alert(\'Copied to clipboard!\');})">&#128203; Click to copy</span>';
 
+  // No Content-Type header — required for no-cors cross-origin POST to Apps Script
   var SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxAX-OlTh8np6SJ9VNTGwtedH4LdxQBd1cPPB_SMS8H697YRQZHLzmOG9kY7II9YHVqmg/exec';
   fetch(SCRIPT_URL, {
     method: 'POST', mode: 'no-cors',
-    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ type: 'affiliate_signup', name: name, email: email, phone: phone, affId: affId, promo: promo, timestamp: new Date().toISOString() })
   }).catch(function() {});
 
@@ -1541,73 +1541,3 @@ window.addEventListener('load', function() {
   }
 });
 </script>
-
-<!-- ═══════════════════════════════════════════════════════════════
-     DEPLOYMENT GUIDE — READ BEFORE GOING LIVE
-     (Remove this comment block before publishing)
-═══════════════════════════════════════════════════════════════════
-
-╔══════════════════════════════════════════════════════════════╗
-║  WEALTHUNE PRO v3.0 — COMPLETE DEPLOYMENT GUIDE             ║
-╚══════════════════════════════════════════════════════════════╝
-
-STEP 1: REPLACE PLACEHOLDERS IN THIS FILE
-─────────────────────────────────────────
-Search for these strings and replace with your actual values:
-
-  https://script.google.com/macros/s/AKfycbxAX-OlTh8np6SJ9VNTGwtedH4LdxQBd1cPPB_SMS8H697YRQZHLzmOG9kY7II9YHVqmg/exec  → Your deployed Apps Script Web App URL
-                                       (from the apps-script-backend.js setup)
-  YOUR_GOOGLE_FORM_ACTION_URL_HERE  → Google Form URL for user feedback
-  YOUR_AFFILIATE_GOOGLE_FORM_URL_HERE → Google Form URL for affiliate signups
-  G-BVC1LTJFEM                      → Your Google Analytics Measurement ID
-  wealthune@ybl                     → Your actual PhonePe UPI ID
-
-STEP 2: GOOGLE ANALYTICS SETUP (Free)
-──────────────────────────────────────
-1. Go to analytics.google.com → Create Account → Property
-2. Platform: Web → Enter your GitHub Pages URL
-3. Copy your Measurement ID (looks like G-G-BVC1LTJFEM)
-4. Replace G-BVC1LTJFEM in two places at top of this file
-5. What you can track:
-   • Page views per tab (each switchTab call fires a pageview equivalent)
-   • CTA button clicks (trackEvent calls already in the code)
-   • Payment modal opens
-   • Order submissions
-   • Affiliate link generations
-   • Referral visits (?ref= parameter)
-
-STEP 3: GOOGLE FORMS SETUP (Free, for affiliate tracking)
-───────────────────────────────────────────────────────────
-CREATE FORM 1: Affiliate Signup Tracker
-  • Go to forms.google.com → New Form
-  • Add fields: Full Name, Email, Affiliate ID, Promotion Channel
-  • Click Send → Get pre-filled link → Inspect form action URL
-  • Form action = https://docs.google.com/forms/d/e/XXXXX/formResponse
-  • Find entry IDs: Right-click each field in the form → Inspect
-    Look for name="entry.XXXXXXXXX" — that's your entry ID
-  • Replace AFF_FORM_URL and entry.AFF_NAME etc. in the JS above
-
-CREATE FORM 2: User Feedback Tracker
-  • New Form → Fields: Name, Rating (1-5), Trading Style, Feedback, Email
-  • Same process — get action URL and entry IDs
-  • Replace FORM_URL and entry.FIELD_NAME etc. in submitFeedback() above
-
-Both forms auto-populate a Google Sheet — your live dashboard.
-
-STEP 4: PHONEPE QR CODE
-─────────────────────────
-1. Open PhonePe app → Profile → My QR Code → Screenshot
-2. Transfer to PC (WhatsApp/email/USB)
-3. Rename file to phonepe-qr.png
-4. In this HTML, replace the <img src="https://api.qrserver.com/..."> line with:
-   <img src="phonepe-qr.png" alt="UPI QR ₹3,999"/>
-5. Also update the UPI ID text from "wealthune@ybl" to your actual UPI ID
-
-STEP 5: WEALTHUNE LOGO
-───────────────────────
-The logo is already referenced as Wealthune_Logo.jpg
-Make sure Wealthune_Logo.jpg is in the same folder as index.html
-The onerror fallback will show "WEALTHUNE" text if image is missing
-
-STEP 6: GITHUB PAGES HOSTING (Free — Recommended for 5-day test)
-─────────────────�
